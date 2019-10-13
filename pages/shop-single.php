@@ -3,18 +3,21 @@
 session_start();
 require_once("../classes/Item.php");
 $item_id = $_GET['item_id'];
+
 $item = new Item;
 
 $get_item = $item->getSingleItem($item_id);
 
-// if(isset($_POST["addToCart"])) {
-
-//   $itemId = $get_item['item_id'];
-//   $quantity = $_POST['quantity'];
 
 
-//   $item_image->save($,$quantity);
-// }
+include("../classes/User.php");
+$cart_item = new CartItem;
+
+if(isset($_POST["addToCart"])) {
+
+  $->save($user_id);
+
+}
 
 ?>
 
@@ -56,7 +59,6 @@ $get_item = $item->getSingleItem($item_id);
       <div class="site-mobile-menu-body"></div>
     </div>
 
-
     
     <div class="header-top">
       <div class="container">
@@ -83,9 +85,16 @@ $get_item = $item->getSingleItem($item_id);
                 <li><a href="index.php" class="nav-link text-left">Home</a></li>
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
-                <li><a href="blog.php" class="nav-link text-left">Blog</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li><a href="login.php" class="nav-link text-left">Login</a></li>
+                <li>
+                  <?php
+                    if(!isset($_SESSION['user_id'] )){ 
+                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                    } else {
+                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                    }
+                  ?>
+                </li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>
@@ -118,14 +127,14 @@ $get_item = $item->getSingleItem($item_id);
 
             <div class="mb-5">
               <form class="input-group mb-3" style="max-width: 200px;">
-                <div class="input-group-prepend">
+                <!-- <div class="input-group-prepend">
                   <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                 </div>
                 <input type="text" name="quantity" class="form-control text-center border mr-0" value="1" placeholder=""
                   aria-label="Example text with button addon" aria-describedby="button-addon1">
                 <div class="input-group-append">
                   <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                </div>
+                </div> -->
                 <button type="submit" name="addToCart" class="btn btn-sm height-auto px-4 py-3 btn-primary mt-4">Add To Cart</button>
               </form>
     

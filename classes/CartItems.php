@@ -1,20 +1,18 @@
 <?php
 require_once("Config.php");
 
-class Item extends Config {
+class CartItem extends Config {
 
-    public function save($) {
+    public function save($item_id) {
         
-        $sql = "UPDATE student INNER JOIN login ON student.loginid=login.loginid
-        SET student.studFname = '$fname',login.username = '$uname'";
-
+        $sql = "INSERT INTO `carts` (item_id,) VALUES ('$item_id')";
 
         $result = $this->conn->query($sql);
 
         if($result === TRUE) {
 
-            $_SESSION['message'] = "Item added successfully";
-            header("Location: ../pages/items.php");
+            $_SESSION['message'] = "Items added successfully";
+            header("Location: ../pages/cart.php");
             
         } else {
             echo $this->conn->error;

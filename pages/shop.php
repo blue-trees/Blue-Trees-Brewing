@@ -70,11 +70,11 @@ session_start();
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
                 <li>
                   <?php
-                   if(!isset($_SESSION['user_id'] )){ 
+                    if(!isset($_SESSION['user_id'] )){ 
                       echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                   } else {
+                    } else {
                       echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                   }
+                    }
                   ?>
                 </li>
                 <li><a href="cart.php" class="nav-link text-left">Cart</a></li>

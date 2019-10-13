@@ -47,6 +47,7 @@ class User extends Config {
 
         session_destroy();
         header("Location: ../pages/login.php");
+        
     }
 
 }
