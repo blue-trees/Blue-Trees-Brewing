@@ -8,15 +8,18 @@ $item = new Item;
 
 $get_item = $item->getSingleItem($item_id);
 
+$user_id = $_SESSION['user_id'];
 
+include("../classes/Cart.php");
+$cart = new Cart;
 
-include("../classes/User.php");
-$cart_item = new CartItem;
-
-if(isset($_POST["addToCart"])) {
-
-  $->save($user_id);
-
+if(isset($_POST['addToCart'])){
+  $quantity = $_POST['quantity'];
+  $price = $get_item['item_price'];
+  $add = $cart->addToCart($item_id, $quantity, $user_id, $price);
+  if($add) {
+    header("Location: cart.php");
+  }
 }
 
 ?>
@@ -126,20 +129,18 @@ if(isset($_POST["addToCart"])) {
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eos inventore aspernatur voluptatibus ratione odit molestias molestiae, illum et impedit veniam modi sunt quas nam mollitia earum perferendis, dolorem. Magni.</p>
 
             <div class="mb-5">
-              <form class="input-group mb-3" style="max-width: 200px;">
-                <!-- <div class="input-group-prepend">
+              <form class="input-group mb-3" method="POST" style="max-width: 200px;">
+                <div class="input-group-prepend">
                   <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                 </div>
                 <input type="text" name="quantity" class="form-control text-center border mr-0" value="1" placeholder=""
                   aria-label="Example text with button addon" aria-describedby="button-addon1">
                 <div class="input-group-append">
                   <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                </div> -->
+                </div>
                 <button type="submit" name="addToCart" class="btn btn-sm height-auto px-4 py-3 btn-primary mt-4">Add To Cart</button>
               </form>
-    
             </div>
-
           </div>
         </div>
       </div>
