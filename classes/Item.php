@@ -30,6 +30,7 @@ class Item extends Config {
         if($result->num_rows <= 0) {
             return false;
         } else {
+            // ※以下5行の意味
             $row = array();
 
             while($row = $result->fetch_assoc()) {
@@ -50,6 +51,7 @@ class Item extends Config {
 
         if($result->num_rows <= 0) {
             return false;
+        // ※確認：elseif必要？
         } elseif ($this->conn->error) {
             echo $this->conn->error;
         } else {

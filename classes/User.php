@@ -30,6 +30,7 @@ class User extends Config {
         }else {
 
             $row = $result->fetch_assoc();
+        // 　※確認：以下一文でuser_idのsessionを開始している？
             $_SESSION['user_id'] = $row['user_id'];
 
             if($row["user_role"] === 'admin'){

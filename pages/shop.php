@@ -106,7 +106,7 @@ session_start();
           foreach($result as $key => $row) {
               $item_id = $row['item_id'];
               $item_name = $row['item_name'];
-              $item_price = $row['item_price'];
+              $item_price = number_format($row['item_price'], 2);
 
               echo "
                 
@@ -116,13 +116,13 @@ session_start();
                       <a href='shop-single.php?item_id=$item_id' class='thumbnail d-block mb-4'><img src='../images/wine_2.png' alt='Image' class='img-fluid'></a>
                       <div>
                         <h3 class='heading mb-1 mt-4'><a href='shop-single.php?item_id=$item_id'>$item_name</a></h3>
-                        <span class='price mt-3'>PHP $item_price</span>
+                        <span class='price mt-3'>P $item_price</span>
                       </div>
 
                       <div class='wine-actions'>
                           
                         <h3 class='heading-2'><a href='shop-single.php?item_id=$item_id'>$item_name</a></h3>
-                        <span class='price d-block'>PHP $item_price</span>
+                        <span class='price d-block'>P $item_price</span>
                         
                         <a href='cart.php' class='btn add'><span class='icon-shopping-bag mr-3'></span> Add to Cart</a>
                       </div>
@@ -141,7 +141,7 @@ session_start();
         <div class="row justify-content-center text-center align-items-center">
           <div class="col-md-8">
             <span class="sub-title">Welcome</span>
-            <h2>Wines For Everyone</h2>
+            <h2>Alcoholes For Everyone</h2>
           </div>
         </div>
       </div>

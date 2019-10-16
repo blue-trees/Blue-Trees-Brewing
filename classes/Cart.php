@@ -10,19 +10,18 @@ public function addToCart($item_id, $quantity, $user_id, $price) {
 
     // user_idとそのuserのstatusがavailableであるcartが無い場合はcartsTBに新規にuse_idを登録して、
     // 同時にinsert_idでcartsTBのprimary keyであるcart_idを新規に取得する
+    // user_idとそのuserのstatusがavailableであるcartがある場合は、そのcartのcart_idを取得する
     if($result->num_rows <= 0){
         $sql = "INSERT INTO `carts`(user_id) VALUES ('$user_id')";
         $result = $this->conn->query($sql);
         $cart_id = $this->conn->insert_id;
-    }　
-    // user_idとそのuserのstatusがavailableであるcartがある場合は、そのcartのcart_idを取得する
-     else {
+    } else {
         $row = $result->fetch_assoc();
         $cart_id = $row['cart_id'];
     }
 
     if($result) {
-        // cart_itemTBをcartTBをcar_idで結合して、shop-singleでaddtocartしたときの
+        // cart_itemTBとcartTBをcar_idで結合して、shop-singleでaddtocartしたときの
         // user_id,item_idを取得する(statusがavailableのもの)
         $sql = "SELECT * FROM cart_items 
         INNER JOIN carts ON carts.cart_id = cart_items.cart_id
@@ -33,9 +32,12 @@ public function addToCart($item_id, $quantity, $user_id, $price) {
         // cart_id,item_id,quantity,totalpriceをinsertする
         if($result->num_rows <= 0){
             $total_price = $quantity * $price;
-            $sql = "INSERT INTO `cart_items`(cart_id, item_id, cart_item_quantity, cart_item_price) 
-                    VALUES ($cart_id, $item_id, $quantity, $total_price)";
-            $result = $this->conn->query($sql);
+            $sqla = "INSERT INTO `cart_items`(cart_id, item_id, cart_item_quantity, cart_item_price) 
+            VALUES ('$cart_id', '$item_id', '$quantity', '$total_price')";
+            // $sql = "INSERT INTO `cart_items`(cart_id, item_id, cart_item_quantity, cart_item_price) 
+            //         VALUES ($cart_id, $item_id, $quantity, $total_price)　AND `items`(item_quantity) VALUE ('$quantity') 
+            //         INNER JOIN　`items` ON items.items_id = cart_items.items_id";
+            $result = $this->conn->query($sqla);
         // cartにitemが存在する場合(statusがavailableの場合)、
         // cart_id,item_id,quantity,totalpriceをupdateする
         } else {
@@ -46,6 +48,13 @@ public function addToCart($item_id, $quantity, $user_id, $price) {
             $sql = "UPDATE cart_items SET cart_item_quantity=$total_quantity,
                     cart_item_price=$total_price WHERE cart_item_id=$ci_id";
             $result = $this->conn->query($sql);
+        }
+
+        if($result) {
+        $sql = "UPDATE `items` SET item_quantity=$quantity WHERE item_id = $item_id";
+
+            $result = $this->conn->query($sql);
+
         }
 
         if($result) {

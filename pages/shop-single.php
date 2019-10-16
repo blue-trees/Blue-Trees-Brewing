@@ -2,6 +2,7 @@
 
 session_start();
 require_once("../classes/Item.php");
+// ※確認：どっから来てる？GETの機能
 $item_id = $_GET['item_id'];
 
 $item = new Item;
@@ -32,7 +33,7 @@ if(isset($_POST['addToCart'])){
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  
+
   <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Montserrat:400,700|Roboto&display=swap" rel="stylesheet"> 
   <link rel="stylesheet" href="../fonts/icomoon/style.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">

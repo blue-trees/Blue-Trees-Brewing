@@ -2,6 +2,22 @@
 
 session_start();
 
+require_once("../classes/CartItems.php");
+
+$user_id = $_SESSION['user_id'];
+
+$cart_item = new CartItem;
+
+$get_cart_item = $cart_item->getCartItem($user_id);
+
+$get_subtotal = $cart_item->subtotal($user_id);
+
+if(isset($_POST['remove'])) {
+
+  $cart_item->removeCartItem();
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -71,12 +87,11 @@ session_start();
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
                 <li>
                   <?php
-                   if(!isset($_SESSION['user_id'] )){ 
+                    if(!isset($_SESSION['user_id'] )){ 
                       echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                   } else {
+                    } else {
                       echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  
+                    }
                   ?>
                 </li>
               </ul>                                                                                                                                                                                                                                                                                         
@@ -90,7 +105,7 @@ session_start();
 
     <div class="site-section  pb-0">
       <div class="container">
-        <div class="row mb-5 justify-content-center">
+        <div class="row mb-2 justify-content-center">
           <div class="col-7 section-title text-center mb-5">
             <h2 class="d-block">Cart</h2>
           </div>
@@ -110,57 +125,54 @@ session_start();
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="../images/wine_1.png" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 cart-product-title text-black">Trius Cabernet France 2011</h2>
-                    </td>
-                    <td>$55.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center border mr-0" value="1" placeholder=""
-                          aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-    
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>
-                  </tr>
-    
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="../images/wine_2.png" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 cart-product-title text-black">Trius Cabernet France 2011</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center border mr-0" value="1" placeholder=""
-                          aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-    
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>
-                  </tr>
+                <?php
+                  if($get_cart_item === FALSE) {
+                    echo "<td colspan='6' class='bg-light font-weight-bold'>No Items in Your Cart.</td>";
+                  } else {
+                    foreach($get_cart_item as $key => $row) {
+                      $quantity = $row['cart_item_quantity'];
+                      $price = $row['item_price'];
+                      $ci_id = $row['cart_item_id'];
+                      echo "<tr>";
+                      echo "<td></td>";
+                      echo "<td>" . $row['item_name'] . "</td>";
+                      echo "<td>" . number_format($row['item_price'],2) . "</td>";
+                      echo "<td>                 
+                              <div class='input-group mb-3' style='max-width: 120px;'>
+                                <div class='input-group-prepend'>
+                                  <form method='post' action='updateCartItem.php?id=$ci_id&quantity=$quantity&price=$price&action=minus'>
+                                    <button type='submit' name='subUpdateCart' class='btn btn-outline-primary'>&minus;</button>
+                                  </form>
+                                </div>
+                                <input type='text' name='quantity' class='form-control text-center border px-2 mr-0' value='$quantity'
+                                  aria-label='Example text with button addon' aria-describedby='button-addon1'>
+                                <div class='input-group-append'>
+                                  <form method='post' action='updateCartItem.php?id=$ci_id&quantity=$quantity&price=$price&action=add'>
+                                    <button type='submit' name='addUpdateCart' class='btn btn-outline-primary'>&plus;</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </td>";
+                      echo "<td>" . number_format($row['cart_item_price'],2) . "</td>";
+                      echo "<td>
+                      <a href ='removeCartItem.php?cart_item_id=$ci_id' class='btn btn-primary'>×</a>
+                            </td>";
+                      echo "</tr>";
+                    }
+                  }
+                ?>
                 </tbody>
               </table>
+            </div>
+            <div class="container mt-4">
+              <div class="row mb-5">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <button class="btn btn-primary btn-md btn-block py-2">Update Cart</button>
+                </div>
+                <div class="col-md-6">
+                  <a href="shop.php" class="btn btn-outline-primary btn-md btn-block py-2">Continue Shopping</a>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -171,16 +183,6 @@ session_start();
     <div class="site-section pt-5 bg-light">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
-            <div class="row mb-5">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-primary btn-md btn-block">Update Cart</button>
-              </div>
-              <div class="col-md-6">
-                <button class="btn btn-outline-primary btn-md btn-block"><a href="shop.php">Continue Shopping</a></button>
-              </div>
-            </div>
-          </div>
           <div class="col-md-6 pl-5">
             <div class="row justify-content-end">
               <div class="col-md-11">
@@ -194,22 +196,30 @@ session_start();
                     <h3 class="text-black ">Subtotal</h3>
                   </div>
                   <div class="col-md-6 text-right">
-                    <h3 class="text-black">$230.00</h3>
+                    <h3 class="text-black">P <?php echo number_format($get_subtotal,2); ?></h3>
                   </div>
                 </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <h3 class="text-black ">Shipping Fee</h3>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <h3 class="text-black">P 100.00</h3>
+                  </div>
+                </div>
+                <hr style="background-color:black;">
                 <div class="row mb-5">
                   <div class="col-md-6">
                     <h3 class="text-black">Total</h3>
                   </div>
                   <div class="col-md-6 text-right">
-                    <h3 class="text-black">$230.00</h3>
+                    <h3 class="text-black">P <?php echo number_format($get_subtotal + 100,2); ?></h3>
                   </div>
                 </div>
     
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='checkout.php'">Proceed To
-                      Checkout</button>
+                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='checkout.php'">Proceed To Checkout</button>
                   </div>
                 </div>
               </div>

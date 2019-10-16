@@ -83,16 +83,16 @@ if(isset($_POST["save"])) {
                 <li><a href=".php" class="nav-link text-left"></a></li>
                 <li><a href=".php" class="nav-link text-left"></a></li>
                 <li>
-                  <?php
-                   if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                   } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  
-                  ?>
+                    <?php
+                    if(!isset($_SESSION['user_id'] )){ 
+                        echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                    } else {
+                        echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                    }
+                    
+                    ?>
                 </li>
-              </ul>                                                                                                                                                                                                                                                                                           
+            </ul>                                                                                                                                                                                                                                                                                           
         </nav>
         </div>
     </div>

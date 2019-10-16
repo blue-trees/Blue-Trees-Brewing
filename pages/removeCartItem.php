@@ -1,16 +1,17 @@
 <?php
 session_start();
-require_once("../classes/User.php");
 
-$user = new User;
+require_once("../classes/CartItems.php");
 
-if(isset($_POST["login"])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+$cart_item_id = $_GET['cart_item_id'];
 
-    $user->login($email,$password);
+$cart_item = new CartItem;
+
+if(isset($_POST['remove'])) {
+
+  $cart_item->removeCartItem($cart_item_id);
+
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -63,8 +64,6 @@ if(isset($_POST["login"])) {
       </div>
       
 
-
-      
       <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
       <div class="container">
@@ -99,28 +98,11 @@ if(isset($_POST["login"])) {
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <div class="section-title mb-3">
-              <h2>Login</h2>
-            </div>
-            <form method="post">
-                <div class="container">
-                      <div class="form-group">
-                          <label for="email">Email</label>
-                          <input type="email" id="email" name="email" class="form-control form-control-lg">
-                      </div>
-                      <div class="form-group">
-                          <label for="password">Password</label>
-                          <input type="password" id="password"  name="password" class="form-control form-control-lg">
-                      </div>
-                      <div class="form-group">
-                          <input type="submit" value="LOGIN" name="login" class="btn btn-primary py-3 mt-3 px-5">
-                      </div>
-                      <div  class="form-group">
-                        <p class="mt-4">If you don't have your account, please make sure to register your informaton <span>
-                        <a href="register.php" class="font-weight-bold font-bottom-kine" style="border-bottom: solid 1px;"> here.</a></span></p>
-                      </div>
-                  </div>
-            </form>
+            <form action="" method="post" class="text-center">
+                    <h3>Are you sure to remove this item?</h3>
+                    <button type="submit" name="remove" class="btn btn-primary mr-5 mt-3 px-4">Yes</button>
+                    <a href="cart.php" class="btn btn-primary mt-3">Cancel</a>
+                </form>
           </div>
         </div>
 
@@ -157,10 +139,6 @@ if(isset($_POST["login"])) {
     
 
   </div>
-  <!-- .site-wrap -->
-
-
-  <!-- loader -->
   <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#ff5e15"/></svg></div>
 
   <script src="../js/jquery-3.3.1.min.js"></script>
