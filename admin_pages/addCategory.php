@@ -1,15 +1,14 @@
 <?php
 session_start();
-require_once("../classes/ItemImage.php");
+require_once("../classes/Category.php");
 
-$item_image = new ItemImage;
+$category = new Category;
 
-if(isset($_POST["addItemImage"])) {
+if(isset($_POST["addCategory"])) {
 
-    $item = $_POST['item'];
-    $image = $_POST['image'];
+    $name = $_POST['name'];
 
-    $item_image->save($item,$image);
+    $category->save($name);
 }
 
 ?>
@@ -64,6 +63,7 @@ if(isset($_POST["addItemImage"])) {
       </div>
     </div>
       
+      
       <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
       <div class="container">
@@ -80,9 +80,9 @@ if(isset($_POST["addItemImage"])) {
                 <li>
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
                    }
                   
                   ?>
@@ -95,48 +95,23 @@ if(isset($_POST["addItemImage"])) {
     </div>
     </div>
 
-
     <div class="site-section mt-2">
       <div class="container">
         <div class="row mb-5">
           <div class="col-12 section-title text-center mb-3">
-            <h2 class="d-block">Add Item Image</h2>
+            <h2 class="d-block">Add Category</h2>
           </div>
         </div>
         <form action="" method="post" class="w-50 mx-auto">
-
-          <input type="file" name="image" class="form-control-file">
-          <!-- <input id="lefile" type="file" style="display:none">
-          <div class="input-group">
-            <input type="text" id="photoCover" class="form-control" placeholder="select file...">
-            <span class="input-group-btn"><button type="button" class="btn btn-primary" onclick="$('input[id=lefile]').click();">Browse</button></span>
-          </div>
-          <script>
-            $('input[id=lefile]').change(function() {
-              $('#photoCover').val($(this).val());
-            });
-          </script> -->
-          <div class="form-group">
-              <select class="form-control" name="item" id="">
-                  <?php
-                      include("../classes/Item.php");
-                      $item = new Item;
-                      $result = $item->getItem();
-                      foreach($result as $key => $row) {
-                          $item_id = $row['item_id'];
-                          $item_name = $row['item_name'];
-                          echo "<option value= '$item_id'>$item_name</option>";
-                      }
-                  ?>
-              </select>
+            <div class="form-group">
+                <label for="">Category Name</label>
+                <input type="text" name="name" class="form-control">
             </div>
-          <button type="submit" name="addItemImage" class="btn btn-primary mt-3">Add Item Image</button>
-
+            <button type="submit" name="addCategory" class="btn btn-primary mt-3">Add Category</button>
         </form>
     </div>
     </div>
-
-
+    
     <div class="footer">
       <div class="container">
         <div class="row">

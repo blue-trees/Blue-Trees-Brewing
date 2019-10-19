@@ -75,9 +75,9 @@ if(isset($_POST["confirm"])) {
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
                 <li><a href="index.php" class="nav-link text-left">Home</a></li>
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
-                <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
+                <li><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li>
+                <li class="active">
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
                       echo '<a href="login.php" class="nav-link text-left">Login</a>';
@@ -105,7 +105,7 @@ if(isset($_POST["confirm"])) {
             <form action="" method="post" class="text-center">
                     <h3>Are you sure to logout?</h3>
                     <button type="submit" name="confirm" value="yes" class="btn btn-primary mr-5 px-4">Yes</button>
-                    <a href="logout.php" class="btn btn-primary">Cancel</a>
+                    <a href="index.php" class="btn btn-primary">Cancel</a>
                 </form>
           </div>
         </div>

@@ -35,7 +35,7 @@ class User extends Config {
 
             if($row["user_role"] === 'admin'){
 
-                header("Location: ../pages/admin.php");
+                header("Location: ../admin_pages/admin.php");
 
             }elseif($row["user_role"] === 'user'){
 

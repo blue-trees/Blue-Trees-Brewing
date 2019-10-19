@@ -12,7 +12,7 @@ class Category extends Config {
         if($result === TRUE) {
 
             $_SESSION['message'] = "Category added successfully";
-            header("Location: ../pages/categories.php");
+            header("Location: ../admin_pages/categories.php");
             
         } else {
             echo $this->conn->error;

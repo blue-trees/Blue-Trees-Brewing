@@ -8,10 +8,11 @@ if(isset($_POST["addItem"])) {
 
     $category = $_POST['category'];
     $name = $_POST['name'];
-    $price = $_POST['price'];
+    $price = number_format($_POST['price'],2);
     $quantity = $_POST['quantity'];
 
     $item->save($category,$name,$price,$quantity);
+
 }
 
 ?>
@@ -83,9 +84,9 @@ if(isset($_POST["addItem"])) {
                 <li>
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
                    }
                   
                   ?>

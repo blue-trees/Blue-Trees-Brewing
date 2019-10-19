@@ -133,12 +133,13 @@ if(isset($_POST['remove'])) {
                       $quantity = $row['cart_item_quantity'];
                       $price = $row['item_price'];
                       $ci_id = $row['cart_item_id'];
+                      $item_image = $row['item_image'];
                       echo "<tr>";
-                      echo "<td></td>";
+                      echo "<td><image src='../images/$item_image' width='50'></td>";
                       echo "<td>" . $row['item_name'] . "</td>";
                       echo "<td>" . number_format($row['item_price'],2) . "</td>";
                       echo "<td>                 
-                              <div class='input-group mb-3' style='max-width: 120px;'>
+                              <div class='input-group mb-1 mx-auto' style='max-width: 120px;'>
                                 <div class='input-group-prepend'>
                                   <form method='post' action='updateCartItem.php?id=$ci_id&quantity=$quantity&price=$price&action=minus'>
                                     <button type='submit' name='subUpdateCart' class='btn btn-outline-primary'>&minus;</button>

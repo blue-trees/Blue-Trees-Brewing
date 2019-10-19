@@ -53,9 +53,6 @@ session_start();
         </div>
       </div>
       
-
-
-      
       <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
       <div class="container">
@@ -68,6 +65,7 @@ session_start();
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
+                <li><a href="cart.php" class="nav-link text-left">Cart</a></li>
                 <li>
                   <?php
                     if(!isset($_SESSION['user_id'] )){ 
@@ -77,7 +75,6 @@ session_start();
                     }
                   ?>
                 </li>
-                <li><a href="cart.php" class="nav-link text-left">Cart</a></li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>
@@ -101,11 +98,12 @@ session_start();
           include("../classes/Item.php");
 
           $item = new Item;
-          $result = $item->getItem();
+          $result = $item->getItemId();
 
           foreach($result as $key => $row) {
               $item_id = $row['item_id'];
               $item_name = $row['item_name'];
+              $item_iamge = $row['item_image'];
               $item_price = number_format($row['item_price'], 2);
 
               echo "
@@ -113,7 +111,7 @@ session_start();
                   <div class='col-lg-4 mb-5 col-md-6'>
 
                     <div class='wine_v_1 text-center pb-4>
-                      <a href='shop-single.php?item_id=$item_id' class='thumbnail d-block mb-4'><img src='../images/wine_2.png' alt='Image' class='img-fluid'></a>
+                      <a href='shop-single.php?item_id=$item_id' class='thumbnail d-block mb-4'><img src='../images/$item_iamge' alt='Image' class='img-fluid'></a>
                       <div>
                         <h3 class='heading mb-1 mt-4'><a href='shop-single.php?item_id=$item_id'>$item_name</a></h3>
                         <span class='price mt-3'>P $item_price</span>

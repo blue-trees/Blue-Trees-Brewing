@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-require_once("../classes/Item.php");
+require_once("../classes/ItemImage.php");
 
-$item = new Item;
+$itemImage = new ItemImage;
 
 ?>
 
@@ -65,23 +65,23 @@ $item = new Item;
           <div class="mx-auto">
             <nav class="site-navigation position-relative text-left" role="navigation">
             <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li class="active"><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
+                <li><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
                 <li><a href="categories.php" class="nav-link text-left">Categories</a></li>
                 <li><a href="items.php" class="nav-link text-left">Items</a></li>
-                <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
+                <li class="active"><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
                 <li><a href=".php" class="nav-link text-left"></a></li>
                 <li><a href=".php" class="nav-link text-left"></a></li>
                 <li>
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
                    }
                   
                   ?>
                 </li>
-              </ul>                                                                                                                                                                                                                                                                                           
+              </ul>                                                                                                                                                                                                                                                                                          
             </nav>
           </div>
         </div>
@@ -90,7 +90,7 @@ $item = new Item;
   </div>
 
     <div class="container">
-        <div class="card mt-5">
+        <div class="card mt-5 w-75 mx-auto">
             <div class="card-body">
                 <?php
                     if(isset($_SESSION['message'])){
@@ -100,27 +100,25 @@ $item = new Item;
                 ?>
                 <table class="table table-striped">
                     <thead class="text-center bg-secondary text-white">
-                      <th>Item ID</th>
-                      <th>category_id ID</th>
-                      <th>Item Name</th>
-                      <th>Item Price</th>
-                      <th>Item Quantity</th>
+                      <th>Item Image ID</th>
+                      <th>Item name</th>
+                      <th>Item Image</th>
                     </thead>
                     <tbody class="text-center">
                       <?php
-                        $result = $item->getItem();
+                        $result = $itemImage->getItemImage();
 
                         if($result === FALSE) {
-                          echo "<td colspan='5'>No Data Found.</td>";
+                          echo "<td colspan='3'>No Data Found.</td>";
                         } else {
                           foreach($result as $key => $row) {
 
+                            $image = $row['item_image'];
+
                             echo "<tr>";
-                            echo "<td>" . $row['item_id'] . "</td>";
-                            echo "<td>" . $row['category_id'] . "</td>";
+                            echo "<td>" . $row['item_image_id'] . "</td>";
                             echo "<td>" . $row['item_name'] . "</td>";
-                            echo "<td>" . $row['item_price'] . "</td>";
-                            echo "<td>" . $row['item_quantity'] . "</td>";
+                            echo "<td><image src='../images/$image' width='30'></td>";
                             echo "</tr>";
                           }
                         }
@@ -130,8 +128,8 @@ $item = new Item;
             </div>
         </div>
     </div>
-    <div class="container">
-      <a href ='addItem.php' class='btn btn-info mt-4 '>Add item</a>
+    <div class="container text-center">
+      <a href ='addItemImage.php' class='btn btn-primary mt-4 '>Add Item Image</a>
     </div>    
     <div class="footer">
       <div class="container">

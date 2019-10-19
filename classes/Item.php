@@ -12,7 +12,7 @@ class Item extends Config {
         if($result === TRUE) {
 
             $_SESSION['message'] = "Item added successfully";
-            header("Location: ../pages/items.php");
+            header("Location: ../admin_pages/items.php");
             
         } else {
             echo $this->conn->error;
@@ -22,7 +22,31 @@ class Item extends Config {
 
     public function getItem() {
         
-        $sql = "SELECT * FROM `items` INNER JOIN categories ON categories.category_id = items.category_id";
+        $sql = "SELECT * FROM `items` 
+        INNER JOIN categories ON categories.category_id = items.category_id";
+        // INNER JOIN item_images ON item_images.item_id = items.item_id
+
+        $result = $this->conn->query($sql);
+
+        if($result->num_rows <= 0) {
+            return false;
+        } else {
+            // ※以下5行の意味
+            $row = array();
+
+            while($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+
+            return $rows;
+        }
+
+    }
+
+    public function getItemId() {
+        
+        $sql = "SELECT * FROM `items` 
+        INNER JOIN `item_images` ON item_images.item_id = items.item_id";
         // INNER JOIN item_images ON item_images.item_id = items.item_id
 
         $result = $this->conn->query($sql);
@@ -45,7 +69,9 @@ class Item extends Config {
     
     public function getSingleItem($item_id) {
         
-        $sql = "SELECT * FROM `items`  WHERE item_id = '$item_id'";
+        $sql = "SELECT * FROM `items` 
+        INNER JOIN `item_images` ON item_images.item_id = items.item_id
+        WHERE item_id = '$item_id'";
 
         $result = $this->conn->query($sql);
 

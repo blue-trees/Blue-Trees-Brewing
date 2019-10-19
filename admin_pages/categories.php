@@ -65,8 +65,8 @@ $category = new Category;
           <div class="mx-auto">
             <nav class="site-navigation position-relative text-left" role="navigation">
             <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li class="active"><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
-                <li><a href="categories.php" class="nav-link text-left">Categories</a></li>
+                <li><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
+                <li class="active"><a href="categories.php" class="nav-link text-left">Categories</a></li>
                 <li><a href="items.php" class="nav-link text-left">Items</a></li>
                 <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
                 <li><a href=".php" class="nav-link text-left"></a></li>
@@ -74,9 +74,9 @@ $category = new Category;
                 <li>
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
                    }
                   
                   ?>
@@ -90,7 +90,7 @@ $category = new Category;
   </div>
 
   <div class="container">
-        <div class="card mt-5">
+        <div class="card mt-5 w-75 mx-auto">
             <div class="card-body">
                 <?php
                     if(isset($_SESSION['message'])){
@@ -124,7 +124,7 @@ $category = new Category;
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container text-center">
       <a href ='addCategory.php' class='btn btn-primary mt-4 '>Add Category</a>
     </div>      
 

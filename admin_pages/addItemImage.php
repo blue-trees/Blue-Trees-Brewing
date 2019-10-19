@@ -1,14 +1,17 @@
 <?php
 session_start();
-require_once("../classes/Category.php");
+require_once("../classes/ItemImage.php");
 
-$category = new Category;
+$item_image = new ItemImage;
 
-if(isset($_POST["addCategory"])) {
+if(isset($_POST["addItemImage"])) {
 
-    $name = $_POST['name'];
+  $id = $_POST["id"];
+  $directory = "../images/";
+  $filename = $_FILES["itemImage"]["name"];
+  $tmp_name = $_FILES["itemImage"]["tmp_name"];
 
-    $category->save($name);
+  $item_image->save($id,$directory,$filename,$tmp_name);
 }
 
 ?>
@@ -63,7 +66,6 @@ if(isset($_POST["addCategory"])) {
       </div>
     </div>
       
-      
       <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
       <div class="container">
@@ -80,9 +82,9 @@ if(isset($_POST["addCategory"])) {
                 <li>
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
                    }
                   
                   ?>
@@ -95,23 +97,52 @@ if(isset($_POST["addCategory"])) {
     </div>
     </div>
 
+
     <div class="site-section mt-2">
       <div class="container">
         <div class="row mb-5">
           <div class="col-12 section-title text-center mb-3">
-            <h2 class="d-block">Add Category</h2>
+            <h2 class="d-block">Add Item Image</h2>
           </div>
         </div>
-        <form action="" method="post" class="w-50 mx-auto">
-            <div class="form-group">
-                <label for="">Category Name</label>
-                <input type="text" name="name" class="form-control">
-            </div>
-            <button type="submit" name="addCategory" class="btn btn-primary mt-3">Add Category</button>
+        <form action="" method="post" enctype="multipart/form-data" class="w-50 mx-auto">
+          <!-- <input id="lefile" type="file" style="display:none">
+          <div class="input-group">
+            <input type="text" id="photoCover" class="form-control" placeholder="select file...">
+            <span class="input-group-btn"><button type="button" class="btn btn-primary" onclick="$('input[id=lefile]').click();">Browse</button></span>
+          </div>
+          <script>
+            $('input[id=lefile]').change(function() {
+              $('#photoCover').val($(this).val());
+            });
+          </script> -->
+          <div class="form-group">
+                <label for="">Item Photo</label>
+                <input type="file" name="itemImage" class="form-control-file">
+          </div>
+          <div class="form-group">
+            <label for="">Item Name</label>
+            <select class="form-control" name="id" id="">
+                <?php
+                    include("../classes/Item.php");
+                    $item = new Item;
+                    $result = $item->getItem();
+                    foreach($result as $key => $row) {
+                        $id = $row['item_id'];
+                        $item_name = $row['item_name'];
+
+                        echo "<option value='$id'>$item_name</option>";
+                    }
+                ?>
+            </select>
+          </div>
+          <button type="submit" name="addItemImage" class="btn btn-primary mt-3">Add Item Image</button>
+
         </form>
     </div>
     </div>
-    
+
+
     <div class="footer">
       <div class="container">
         <div class="row">

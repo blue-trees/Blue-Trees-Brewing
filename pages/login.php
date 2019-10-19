@@ -75,9 +75,9 @@ if(isset($_POST["login"])) {
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
                 <li><a href="index.php" class="nav-link text-left">Home</a></li>
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
-                <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
+                <li><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li>
+                <li class="active">
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
                       echo '<a href="login.php" class="nav-link text-left">Login</a>';
@@ -103,23 +103,23 @@ if(isset($_POST["login"])) {
               <h2>Login</h2>
             </div>
             <form method="post">
-                <div class="container">
-                      <div class="form-group">
-                          <label for="email">Email</label>
-                          <input type="email" id="email" name="email" class="form-control form-control-lg">
-                      </div>
-                      <div class="form-group">
-                          <label for="password">Password</label>
-                          <input type="password" id="password"  name="password" class="form-control form-control-lg">
-                      </div>
-                      <div class="form-group">
-                          <input type="submit" value="LOGIN" name="login" class="btn btn-primary py-3 mt-3 px-5">
-                      </div>
-                      <div  class="form-group">
-                        <p class="mt-4">If you don't have your account, please make sure to register your informaton <span>
-                        <a href="register.php" class="font-weight-bold font-bottom-kine" style="border-bottom: solid 1px;"> here.</a></span></p>
-                      </div>
-                  </div>
+              <div class="container">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control form-control-lg">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password"  name="password" class="form-control form-control-lg">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="LOGIN" name="login" class="btn btn-primary py-3 mt-3 px-5">
+                </div>
+                <div  class="form-group">
+                  <p class="mt-4">If you don't have your account, please make sure to register your informaton <span>
+                  <a href="register.php" class="font-weight-bold font-bottom-kine" style="border-bottom: solid 1px;"> here.</a></span></p>
+                </div>
+              </div>
             </form>
           </div>
         </div>

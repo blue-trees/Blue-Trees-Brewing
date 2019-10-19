@@ -59,7 +59,7 @@ session_start();
       </div>
     </div>
       
-      <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
+    <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
       <div class="container">
         <div class="d-flex align-items-center">
@@ -75,9 +75,9 @@ session_start();
                 <li>
                   <?php
                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
+                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
+                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
                    }
                   
                   ?>
@@ -88,7 +88,20 @@ session_start();
         </div>
       </div>
     </div>
-    </div>
+
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-4">
+          <a href ='addCategory.php' class='btn btn-primary mt-4 '>Add Category</a>
+        </div>
+        <div class="col-4">
+          <a href ='addItem.php' class='btn btn-primary mt-4 '>Add Item</a>
+        </div>
+        <div class="col-4">
+          <a href ='addItemImage.php' class='btn btn-primary mt-4 '>Add Item Image</a>
+        </div>
+      </div>
+    </div>  
     
     <div class="footer">
       <div class="container">
