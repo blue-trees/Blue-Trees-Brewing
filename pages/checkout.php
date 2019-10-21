@@ -9,10 +9,52 @@ $checkout = new Checkout;
 
 $get_user = $checkout->getUser($user_id);
 
-var_dump($get_user);
+$get_subtotal = $checkout->subtotal($user_id);
 
-echo $get_user['first_name'];
+$get_cart_item = $checkout->getCartItem($user_id);
 
+if(isset($_POST['purchase'])) {
+
+  if(isset($_POST['checkShipping'])) {
+
+    $fname = $_POST['c_fname'];
+    $lname = $_POST['c_lname'];
+    $street = $_POST['c_street'];
+    $apartment = $_POST['c_apartment'];
+    $state = $_POST['c_state'];
+    $zip = $_POST['c_zip'];
+    $email = $_POST['c_email'];
+    $number = $_POST['c_number'];
+
+    $checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number);
+
+  } else {
+
+    $fname = $_POST['o_fname'];
+    $lname = $_POST['o_lname'];
+    $street = $_POST['o_street'];
+    $apartment = $_POST['o_apartment'];
+    $state = $_POST['o_state'];
+    $zip = $_POST['o_zip'];
+    $email = $_POST['o_email'];
+    $number = $_POST['o_number'];
+
+    $checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number);
+
+  }
+
+}
+
+// $to = $get_user['user_email'];
+// $subject = "Blue Tree Brewing";
+// $message = "Thank you for your purchace.";
+// $headers = "From: sylvaticas@gmail.com";
+
+// if(isset($_POST['purchase'])) {
+
+//   mail($to, $subject, $message, $headers);
+
+// }
 
 ?>
 
@@ -95,7 +137,7 @@ echo $get_user['first_name'];
       </div>
     </div>
     </div>
-
+  <form method="post">
     <div class="site-section">
       <div class="container">
         <div class="row">
@@ -105,48 +147,48 @@ echo $get_user['first_name'];
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname" value="<?php  ?>">
+                  <input type="text" class="form-control" name="o_fname" value="<?php echo $get_user['first_name']; ?>">
                 </div>
                 <div class="col-md-6">
                   <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname">
+                  <input type="text" class="form-control" name="o_lname" value="<?php echo $get_user['last_name']; ?>">
                 </div>
               </div>
     
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address" value="">
+                  <input type="text" class="form-control" name="o_street" placeholder="Street address" value="<?php echo $get_user['user_address_st']; ?>">
                 </div>
               </div>
-    
+
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                <input type="text" class="form-control" name="o_apartment" placeholder="Apartment, suite, unit etc. (optional)" value="<?php echo $get_user['user_address_ap']; ?>">
               </div>
     
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="c_state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_state_country" name="c_state_country">
+                  <input type="text" class="form-control" name="o_state" value="<?php echo $get_user['user_state']; ?>">
                 </div>
                 <div class="col-md-6">
                   <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
+                  <input type="number" class="form-control" name="o_zip" value="<?php echo $get_user['user_zip']; ?>">
                 </div>
               </div>
     
               <div class="form-group row mb-5">
                 <div class="col-md-6">
                   <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address">
+                  <input type="email" class="form-control" name="o_email" value="<?php echo $get_user['user_email']; ?>">
                 </div>
                 <div class="col-md-6">
                   <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
+                  <input type="number" class="form-control" name="o_number" placeholder="Phone Number" value="<?php echo $get_user['user_number']; ?>">
                 </div>
               </div>
     
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account"
                   role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1"
                     id="c_create_account"> Create an account?</label>
@@ -161,88 +203,60 @@ echo $get_user['first_name'];
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
     
     
               <div class="form-group">
                 <label for="c_ship_different_address" class="text-black" data-toggle="collapse"
                   href="#ship_different_address" role="button" aria-expanded="false"
-                  aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address">
+                  aria-controls="ship_different_address"><input type="checkbox" name="checkShipping" value="1" id="c_ship_different_address">
                   Ship To A Different Address?</label>
                 <div class="collapse" id="ship_different_address">
                   <div class="py-2">
+
+                  <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="c_fname">
+                </div>
+                <div class="col-md-6">
+                  <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="c_lname">
+                </div>
+              </div>
     
-                    <div class="form-group">
-                      <label for="c_diff_country" class="text-black">Country <span class="text-danger">*</span></label>
-                      <select id="c_diff_country" class="form-control">
-                        <option value="1">Select a country</option>
-                        <option value="2">bangladesh</option>
-                        <option value="3">Algeria</option>
-                        <option value="4">Afghanistan</option>
-                        <option value="5">Ghana</option>
-                        <option value="6">Albania</option>
-                        <option value="7">Bahrain</option>
-                        <option value="8">Colombia</option>
-                        <option value="9">Dominican Republic</option>
-                      </select>
-                    </div>
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="c_street" placeholder="Street address">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="text" class="form-control" name="c_apartment" placeholder="Apartment, suite, unit etc. (optional)" >
+              </div>
     
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="c_state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="c_state">
+                </div>
+                <div class="col-md-6">
+                  <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
+                  <input type="number" class="form-control" name="c_zip">
+                </div>
+              </div>
     
-                    <div class="form-group row">
-                      <div class="col-md-6">
-                        <label for="c_diff_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_fname" name="c_diff_fname">
-                      </div>
-                      <div class="col-md-6">
-                        <label for="c_diff_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_lname" name="c_diff_lname">
-                      </div>
-                    </div>
-    
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <label for="c_diff_companyname" class="text-black">Company Name </label>
-                        <input type="text" class="form-control" id="c_diff_companyname" name="c_diff_companyname">
-                      </div>
-                    </div>
-    
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <label for="c_diff_address" class="text-black">Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_address" name="c_diff_address"
-                          placeholder="Street address">
-                      </div>
-                    </div>
-    
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-                    </div>
-    
-                    <div class="form-group row">
-                      <div class="col-md-6">
-                        <label for="c_diff_state_country" class="text-black">State / Country <span
-                            class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_state_country" name="c_diff_state_country">
-                      </div>
-                      <div class="col-md-6">
-                        <label for="c_diff_postal_zip" class="text-black">Posta / Zip <span
-                            class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_postal_zip" name="c_diff_postal_zip">
-                      </div>
-                    </div>
-    
-                    <div class="form-group row mb-5">
-                      <div class="col-md-6">
-                        <label for="c_diff_email_address" class="text-black">Email Address <span
-                            class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_email_address" name="c_diff_email_address">
-                      </div>
-                      <div class="col-md-6">
-                        <label for="c_diff_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_phone" name="c_diff_phone"
-                          placeholder="Phone Number">
-                      </div>
-                    </div>
+              <div class="form-group row mb-5">
+                <div class="col-md-6">
+                  <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" name="c_email">
+                </div>
+                <div class="col-md-6">
+                  <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                  <input type="number" class="form-control" name="c_number" placeholder="Phone Number">
+                </div>
+              </div>
     
                   </div>
     
@@ -269,64 +283,49 @@ echo $get_user['first_name'];
                       <th>Total</th>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Bioderma <strong class="mx-2">x</strong> 1</td>
-                        <td>$55.00</td>
-                      </tr>
-                      <tr>
-                        <td>Ibuprofeen <strong class="mx-2">x</strong> 1</td>
-                        <td>$45.00</td>
-                      </tr>
+                    <tr>
+                    <?php
+                        if($get_cart_item === FALSE) {
+                          echo "<td colspan='6' class='bg-light font-weight-bold'>No Items in Your Cart.</td>";
+                        } else {
+                          foreach($get_cart_item as $key => $row) {
+                            $name = $row['item_name'];
+                            $quantity = $row['cart_item_quantity'];
+                            $price = $row['cart_item_price'];
+
+                            echo "<tr>";
+                            echo "<td>" . $name . "<strong class='mx-2'>" . "x" . "</strong>" . $quantity . "</td>";
+                            echo "<td>" . "P " . number_format($row['cart_item_price'],2) . "</td>";
+                            echo "</tr>";
+                          }
+                        }
+                      ?>
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                        <td class="text-black">$350.00</td>
+                        <td class="text-black font-weight-bold">P <?php echo number_format($get_subtotal,2); ?></td>
                       </tr>
                       <tr>
-                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                        <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+                        <td class="text-black"><strong>Shipping Fee</strong></td>
+                        <td class="text-black">P 100.00</td>
+                      </tr>
+                      <tr>
+                        <td class="text-black font-weight-bold"><h5 class="font-weight-bold">Order Total</strong></h5>
+                        <td class="text-black font-weight-bold"><h5 class="font-weight-bold">P <?php echo number_format($get_subtotal + 100,2); ?></h5>
                       </tr>
                     </tbody>
                   </table>
-    
-                  <div class="border mb-3 p-3 rounded">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
-                        aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
-    
-                    <div class="collapse" id="collapsebank">
-                      <div class="py-2 pl-0">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                          payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
+
+                  <div class="form-group text-black my-5">
+                      <h5 class="my-4 font-weight-bold text-decoration-underlined"><u>How to Purchase</u></h5>
+                      <input class="d-inline-block my-3 text-black" type="radio" name="payment" value="creditCard"> Credit Card
+                      <br>
+                      <input class="d-inline-block my-3 text-black" type="radio" name="payment" value="paypal"> Paypal
+                      <br>
+                      <input class="d-inline-block my-3 text-black" type="radio" name="payment" value="convinienceStore"> Convinience Store
                   </div>
-    
-                  <div class="border mb-3 p-3 rounded">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button"
-                        aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-    
-                    <div class="collapse" id="collapsecheque">
-                      <div class="py-2 pl-0">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                          payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="border mb-5 p-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button"
-                        aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-    
-                    <div class="collapse" id="collapsepaypal">
-                      <div class="py-2 pl-0">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                          payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-    
+
                   <div class="form-group">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='thankyou.php'">Place
-                      Order</button>
+                    <button class="btn btn-primary btn-lg btn-block" name="purchase" type="submit">PlaceOrder</button>
                   </div>
     
                 </div>
@@ -335,6 +334,7 @@ echo $get_user['first_name'];
     
           </div>
         </div>
+      </form>
         <!-- </form> -->
       </div>
     </div>
