@@ -28,8 +28,8 @@ class CartItem extends Config {
         $sql = "SELECT * FROM `cart_items` 
         INNER JOIN `carts` ON carts.cart_id = cart_items.cart_id
         INNER JOIN `items` ON items.item_id = cart_items.item_id
-        INNER JOIN `item_iamges` ON item_images.item_id = cart_items.item_id
-        WHERE user_id = $user_id";
+        INNER JOIN `item_images` ON item_images.item_id = cart_items.item_id
+        WHERE carts.user_id = $user_id";
 
         $result = $this->conn->query($sql);
 
@@ -52,7 +52,8 @@ class CartItem extends Config {
         $totalQuantity = $quantity + 1;
         $totalPrice = $price * $totalQuantity;
 
-        $sql = "UPDATE `cart_items` SET cart_item_quantity=$totalQuantity, cart_item_price=$totalPrice WHERE cart_item_id=$id";
+        $sql = "UPDATE `cart_items` SET cart_item_quantity=$totalQuantity, cart_item_price=$totalPrice 
+        WHERE cart_item_id=$id";
 
         $result = $this->conn->query($sql);
 
@@ -68,7 +69,8 @@ class CartItem extends Config {
         $totalQuantity = $quantity - 1;
         $totalPrice = $price * $totalQuantity;
 
-        $sql = "UPDATE `cart_items` SET cart_item_quantity=$totalQuantity, cart_item_price=$totalPrice WHERE cart_item_id=$id";
+        $sql = "UPDATE `cart_items` SET cart_item_quantity=$totalQuantity, cart_item_price=$totalPrice 
+        WHERE cart_item_id=$id";
 
         $result = $this->conn->query($sql);
 

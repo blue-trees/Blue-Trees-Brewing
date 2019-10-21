@@ -103,7 +103,7 @@ session_start();
           foreach($result as $key => $row) {
               $item_id = $row['item_id'];
               $item_name = $row['item_name'];
-              $item_iamge = $row['item_image'];
+              $item_image = $row['item_image'];
               $item_price = number_format($row['item_price'], 2);
 
               echo "
@@ -111,7 +111,7 @@ session_start();
                   <div class='col-lg-4 mb-5 col-md-6'>
 
                     <div class='wine_v_1 text-center pb-4>
-                      <a href='shop-single.php?item_id=$item_id' class='thumbnail d-block mb-4'><img src='../images/$item_iamge' alt='Image' class='img-fluid'></a>
+                      <a href='shop-single.php?item_id=$item_id' class='thumbnail d-block mb-4'><img src='../images/$item_image' alt='Image' class='img-fluid'></a>
                       <div>
                         <h3 class='heading mb-1 mt-4'><a href='shop-single.php?item_id=$item_id'>$item_name</a></h3>
                         <span class='price mt-3'>P $item_price</span>

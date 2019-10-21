@@ -3,10 +3,10 @@ require_once("Config.php");
 
 class User extends Config {
 
-    public function register($fname,$lname,$uname,$number,$address,$email,$password) {
+    public function register($fname,$lname,$uname,$number,$address_st,$address_ap,$state,$zip,$email,$password) {
         
         $hash_password = md5($password);
-        $sql = "INSERT INTO users(first_name,last_name,user_name,user_number,user_address,user_email,user_password) VALUE('$fname','$lname','$uname','$number','$address','$email','$hash_password')";
+        $sql = "INSERT INTO users(first_name,last_name,user_name,user_number,user_address_st,user_address_ap,user_state,user_zip,user_email,user_password) VALUE('$fname','$lname','$uname','$number','$address_st','$address_ap','$state','$zip','$email','$hash_password')";
         $result = $this->conn->query($sql);
 
         if($result === TRUE) {

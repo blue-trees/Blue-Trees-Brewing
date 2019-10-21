@@ -8,6 +8,7 @@ $item_id = $_GET['item_id'];
 $item = new Item;
 
 $get_item = $item->getSingleItem($item_id);
+
 $item_image = $get_item['item_image'];
 
 $user_id = $_SESSION['user_id'];
@@ -121,7 +122,7 @@ if(isset($_POST['addToCart'])){
         <div class="row">
           <div class="col-lg-6">
             <div class="owl-carousel hero-slide owl-style">
-              <img src="../images/$item_iamge" alt="Image" class="img-fluid">
+              <img src="../images/<?php echo $item_image; ?>" alt="Image" class="img-fluid">
             </div>
           </div>
           <div class="col-lg-5 ml-auto">
@@ -138,7 +139,7 @@ if(isset($_POST['addToCart'])){
                 <div class="input-group-append">
                   <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                 </div>
-                <button type="submit" name="addToCart" class="btn btn-sm height-auto px-4 py-3 btn-primary mt-4">Add To Cart</button>
+                <button type="submit" name="addToCart" class="btn btn-sm height-auto px-4 py-3 btn-primary mt-5">Add To Cart</button>
               </form>
             </div>
           </div>

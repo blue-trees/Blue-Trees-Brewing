@@ -10,11 +10,14 @@ if(isset($_POST["save"])) {
     $lname = $_POST['lname'];
     $uname = $_POST['uname'];
     $number = $_POST['number'];
-    $address = $_POST['address'];
+    $address_st = $_POST['address_st'];
+    $address_ap = $_POST['address_ap'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user->register($fname,$lname,$uname,$number,$address,$email,$password);
+    $user->register($fname,$lname,$uname,$number,$address_st,$address_ap,$state,$zip,$email,$password);
 }
 ?>
 
@@ -129,7 +132,16 @@ if(isset($_POST["save"])) {
                     </div>
                     <div class="form-group">
                         <label for="">Address</label>
-                        <input type="text" name="address" class="form-control">
+                        <input type="text" name="address_st" class="form-control" placeholder="Street Address">
+                        <input type="text" name="address_ap" class="form-control mt-2"  placeholder="Apartent,suite,unit,etc.(optional)">
+                    </div>
+                    <div class="form-group">
+                        <label for="">State / Country</label>
+                        <input type="text" name="state" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Posta / Zip</label>
+                        <input type="text" name="zip" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="">Email Address</label>

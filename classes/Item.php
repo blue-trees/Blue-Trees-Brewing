@@ -71,7 +71,7 @@ class Item extends Config {
         
         $sql = "SELECT * FROM `items` 
         INNER JOIN `item_images` ON item_images.item_id = items.item_id
-        WHERE item_id = '$item_id'";
+        WHERE items.item_id = '$item_id'";
 
         $result = $this->conn->query($sql);
 

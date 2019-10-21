@@ -117,7 +117,7 @@ if(isset($_POST["login"])) {
                 </div>
                 <div  class="form-group">
                   <p class="mt-4">If you don't have your account, please make sure to register your informaton <span>
-                  <a href="register.php" class="font-weight-bold font-bottom-kine" style="border-bottom: solid 1px;"> here.</a></span></p>
+                  <a href="../admin_pages/register.php" class="font-weight-bold font-bottom-kine" style="border-bottom: solid 1px;"> here.</a></span></p>
                 </div>
               </div>
             </form>

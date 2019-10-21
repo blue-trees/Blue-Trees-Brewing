@@ -23,7 +23,8 @@ class ItemImage extends Config {
 
     public function getItemImage() {
         
-        $sql = "SELECT * FROM `item_images` INNER JOIN `items` ON items.item_id = item_images.item_id";
+        $sql = "SELECT * FROM `item_images` 
+        INNER JOIN `items` ON items.item_id = item_images.item_id";
 
         $result = $this->conn->query($sql);
 

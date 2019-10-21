@@ -135,7 +135,7 @@ if(isset($_POST['remove'])) {
                       $ci_id = $row['cart_item_id'];
                       $item_image = $row['item_image'];
                       echo "<tr>";
-                      echo "<td><image src='../images/$item_image' width='50'></td>";
+                      echo "<td><image src='../images/$item_image' width='100'></td>";
                       echo "<td>" . $row['item_name'] . "</td>";
                       echo "<td>" . number_format($row['item_price'],2) . "</td>";
                       echo "<td>                 
@@ -165,16 +165,6 @@ if(isset($_POST['remove'])) {
                 </tbody>
               </table>
             </div>
-            <div class="container mt-4">
-              <div class="row mb-5">
-                <div class="col-md-6 mb-3 mb-md-0">
-                  <button class="btn btn-primary btn-md btn-block py-2">Update Cart</button>
-                </div>
-                <div class="col-md-6">
-                  <a href="shop.php" class="btn btn-outline-primary btn-md btn-block py-2">Continue Shopping</a>
-                </div>
-              </div>
-            </div>
           </form>
         </div>
     
@@ -184,6 +174,22 @@ if(isset($_POST['remove'])) {
     <div class="site-section pt-5 bg-light">
       <div class="container">
         <div class="row">
+
+        <div class="col-md-6 pl-5">
+          <div class="row justify-content-end">
+            <div class="container mt-4">
+              <div class="row mb-5">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <button class="btn btn-primary btn-md btn-block py-3 ">Update Cart</button>
+                </div>
+                <div class="col-md-6">
+                  <a href="shop.php" class="btn btn-outline-primary btn-md btn-block py-3">Continue Shopping</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
           <div class="col-md-6 pl-5">
             <div class="row justify-content-end">
               <div class="col-md-11">

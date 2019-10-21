@@ -1,5 +1,19 @@
 <?php
 session_start();
+
+require_once("../classes/Checkout.php");
+
+$user_id = $_SESSION['user_id'];
+
+$checkout = new Checkout;
+
+$get_user = $checkout->getUser($user_id);
+
+var_dump($get_user);
+
+echo $get_user['first_name'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -88,24 +102,10 @@ session_start();
           <div class="col-md-6 mb-5 mb-md-0">
             <h2 class="h3 mb-3 text-black font-heading-serif">Billing Details</h2>
             <div class="p-3 p-lg-5 border">
-              <div class="form-group">
-                <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
-                <select id="c_country" class="form-control">
-                  <option value="1">Select a country</option>
-                  <option value="2">bangladesh</option>
-                  <option value="3">Algeria</option>
-                  <option value="4">Afghanistan</option>
-                  <option value="5">Ghana</option>
-                  <option value="6">Albania</option>
-                  <option value="7">Bahrain</option>
-                  <option value="8">Colombia</option>
-                  <option value="9">Dominican Republic</option>
-                </select>
-              </div>
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname">
+                  <input type="text" class="form-control" id="c_fname" name="c_fname" value="<?php  ?>">
                 </div>
                 <div class="col-md-6">
                   <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
@@ -115,15 +115,8 @@ session_start();
     
               <div class="form-group row">
                 <div class="col-md-12">
-                  <label for="c_companyname" class="text-black">Company Name </label>
-                  <input type="text" class="form-control" id="c_companyname" name="c_companyname">
-                </div>
-              </div>
-    
-              <div class="form-group row">
-                <div class="col-md-12">
                   <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
+                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address" value="">
                 </div>
               </div>
     
