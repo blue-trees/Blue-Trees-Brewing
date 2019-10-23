@@ -4,6 +4,8 @@ require_once('../classes/CartItems.php');
 
 $cart_item = new CartItem;
 
+$user_id = $_SESSION['user_id'];
+
 $id = $_GET['id'];
 $action = $_GET['action'];
 $quantity = $_GET['quantity'];

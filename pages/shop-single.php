@@ -5,9 +5,13 @@ require_once("../classes/Item.php");
 // ※確認：どっから来てる？GETの機能
 $item_id = $_GET['item_id'];
 
+$user_id = $_SESSION['user_id'];
+
 $item = new Item;
 
 $get_item = $item->getSingleItem($item_id);
+
+$get_user_name = $item->getUsername($user_id);
 
 $item_image = $get_item['item_image'];
 
@@ -65,7 +69,17 @@ if(isset($_POST['addToCart'])){
       <div class="site-mobile-menu-body"></div>
     </div>
 
-    
+    <div class="container mt-4">
+      <?php
+        if(!isset($_SESSION['user_id'] )){ 
+          echo '<a href="login.php" class="nav-link text-right font-weight-bold">Login</a>';
+        } else {
+          $name = $get_user_name['user_name'];
+          echo "<a href='logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
+        }
+      ?>
+    </div>
+
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
@@ -92,15 +106,7 @@ if(isset($_POST['addToCart'])){
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li>
-                  <?php
-                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                    }
-                  ?>
-                </li>
+                <li><a href="cart.php" class="nav-link text-left">Cart</a></li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>

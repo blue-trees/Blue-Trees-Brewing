@@ -2,6 +2,13 @@
 
 session_start();
 
+require_once("../classes/User.php");
+
+$user_id = $_SESSION['user_id'];
+
+$user = new User;
+
+$get_user_name = $user->getUsername($user_id);
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +52,16 @@ session_start();
       <div class="site-mobile-menu-body"></div>
     </div>
 
-
+    <div class="container mt-4">
+      <?php
+        if(!isset($_SESSION['user_id'] )){ 
+          echo '<a href="login.php" class="nav-link text-right font-weight-bold">Login</a>';
+        } else {
+          $name = $get_user_name['user_name'];
+          echo "<a href='logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
+        }
+      ?>
+    </div>
     
     <div class="header-top">
       <div class="container">
@@ -72,16 +88,7 @@ session_start();
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li>
-                  <?php
-                   if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                   } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  
-                  ?>
-                </li>
+
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
 

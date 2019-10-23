@@ -10,6 +10,8 @@ $cart_item = new CartItem;
 
 $get_cart_item = $cart_item->getCartItem($user_id);
 
+$get_user_name = $cart_item->getUsername($user_id);
+
 $get_subtotal = $cart_item->subtotal($user_id);
 
 if(isset($_POST['remove'])) {
@@ -59,6 +61,17 @@ if(isset($_POST['remove'])) {
       <div class="site-mobile-menu-body"></div>
     </div>
 
+    <div class="container mt-4">
+      <?php
+        if(!isset($_SESSION['user_id'] )){ 
+          echo '<a href="login.php" class="nav-link text-right font-weight-bold">Login</a>';
+        } else {
+          $name = $get_user_name['user_name'];
+          echo "<a href='logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
+        }
+      ?>
+    </div>
+
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
@@ -85,15 +98,6 @@ if(isset($_POST['remove'])) {
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li>
-                  <?php
-                    if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                    } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                    }
-                  ?>
-                </li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>
@@ -226,7 +230,7 @@ if(isset($_POST['remove'])) {
     
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='checkout.php'">Proceed To Checkout</button>
+                    <a class="btn btn-primary btn-lg btn-block" href="checkout.php?cart_id=<?php echo $row['cart_id']; ?>" >Proceed To Checkout</a>
                   </div>
                 </div>
               </div>

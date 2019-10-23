@@ -2,16 +2,26 @@
 session_start();
 
 require_once("../classes/Checkout.php");
+// require_once("../classes/Contact.php");
+require_once("../classes/sendmail.php");
 
 $user_id = $_SESSION['user_id'];
 
+$cart_id = $_GET['cart_id'];
+
 $checkout = new Checkout;
+// $contact = new Contact;
 
 $get_user = $checkout->getUser($user_id);
+
+$get_user_name = $checkout->getUsername($user_id);
 
 $get_subtotal = $checkout->subtotal($user_id);
 
 $get_cart_item = $checkout->getCartItem($user_id);
+
+$get_payment = $checkout->getPayment();
+
 
 if(isset($_POST['purchase'])) {
 
@@ -25,9 +35,7 @@ if(isset($_POST['purchase'])) {
     $zip = $_POST['c_zip'];
     $email = $_POST['c_email'];
     $number = $_POST['c_number'];
-
-    $checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number);
-
+    $payment_id = $_POST['payment'];
   } else {
 
     $fname = $_POST['o_fname'];
@@ -38,11 +46,21 @@ if(isset($_POST['purchase'])) {
     $zip = $_POST['o_zip'];
     $email = $_POST['o_email'];
     $number = $_POST['o_number'];
-
-    $checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number);
-
+    $payment_id = $_POST['payment'];
   }
+  $name = "$fname $lname";
+  $subject = "Order Being Processed #$cart_id";
+  $body = "Dear $name,
+          Your order #$cart_id has been placed.";
 
+  if($checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number))
+  {
+    if($checkout->addCheckout($cart_id,$payment_id)) {
+      if(sendMail($email, $body, $subject, $name)) {
+        header("Location: thankyou.php");
+      }
+    }
+  }
 }
 
 // $to = $get_user['user_email'];
@@ -96,6 +114,17 @@ if(isset($_POST['purchase'])) {
       <div class="site-mobile-menu-body"></div>
     </div>
 
+    <div class="container mt-4">
+      <?php
+        if(!isset($_SESSION['user_id'] )){ 
+          echo '<a href="login.php" class="nav-link text-right font-weight-bold">Login</a>';
+        } else {
+          $name = $get_user_name['user_name'];
+          echo "<a href='logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
+        }
+      ?>
+    </div>
+
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
@@ -121,15 +150,6 @@ if(isset($_POST['purchase'])) {
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li>
-                  <?php
-                   if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                   } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  ?>
-                </li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>
@@ -137,6 +157,8 @@ if(isset($_POST['purchase'])) {
       </div>
     </div>
     </div>
+
+
   <form method="post">
     <div class="site-section">
       <div class="container">
@@ -187,24 +209,6 @@ if(isset($_POST['purchase'])) {
                   <input type="number" class="form-control" name="o_number" placeholder="Phone Number" value="<?php echo $get_user['user_number']; ?>">
                 </div>
               </div>
-    
-              <!-- <div class="form-group">
-                <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account"
-                  role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1"
-                    id="c_create_account"> Create an account?</label>
-                <div class="collapse" id="create_an_account">
-                  <div class="py-2">
-                    <p class="mb-3">Create an account by entering the information below. If you are a returning customer
-                      please login at the top of the page.</p>
-                    <div class="form-group">
-                      <label for="c_account_password" class="text-black">Account Password</label>
-                      <input type="email" class="form-control" id="c_account_password" name="c_account_password"
-                        placeholder="">
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-    
     
               <div class="form-group">
                 <label for="c_ship_different_address" class="text-black" data-toggle="collapse"
@@ -294,7 +298,7 @@ if(isset($_POST['purchase'])) {
                             $price = $row['cart_item_price'];
 
                             echo "<tr>";
-                            echo "<td>" . $name . "<strong class='mx-2'>" . "x" . "</strong>" . $quantity . "</td>";
+                            echo "<td>" . "・" . $name . "<strong class='mx-2'>" . "x" . "</strong>" . $quantity . "</td>";
                             echo "<td>" . "P " . number_format($row['cart_item_price'],2) . "</td>";
                             echo "</tr>";
                           }
@@ -317,11 +321,15 @@ if(isset($_POST['purchase'])) {
 
                   <div class="form-group text-black my-5">
                       <h5 class="my-4 font-weight-bold text-decoration-underlined"><u>How to Purchase</u></h5>
-                      <input class="d-inline-block my-3 text-black" type="radio" name="payment" value="creditCard"> Credit Card
-                      <br>
-                      <input class="d-inline-block my-3 text-black" type="radio" name="payment" value="paypal"> Paypal
-                      <br>
-                      <input class="d-inline-block my-3 text-black" type="radio" name="payment" value="convinienceStore"> Convinience Store
+                      <?php
+                          foreach($get_payment as $key => $row) {
+                            $id = $row['payment_id'];
+                            $payment = $row['payment_name'];
+
+                            echo  "<input class='d-inline-block my-3 text-black' type='radio' name='payment' value='$id'>" . $payment ;
+                            echo  "<br>";
+                          }
+                      ?>
                   </div>
 
                   <div class="form-group">
@@ -331,7 +339,6 @@ if(isset($_POST['purchase'])) {
                 </div>
               </div>
             </div>
-    
           </div>
         </div>
       </form>

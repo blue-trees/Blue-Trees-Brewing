@@ -5,7 +5,11 @@ require_once("../classes/CartItems.php");
 
 $cart_item_id = $_GET['cart_item_id'];
 
+$user_id = $_SESSION['user_id'];
+
 $cart_item = new CartItem;
+
+$get_user_name = $cart_item->getUsername($user_id);
 
 if(isset($_POST['remove'])) {
 
@@ -50,6 +54,17 @@ if(isset($_POST['remove'])) {
       <div class="site-mobile-menu-body"></div>
     </div>
 
+    <div class="container mt-4">
+      <?php
+        if(!isset($_SESSION['user_id'] )){ 
+          echo '<a href="login.php" class="nav-link text-right font-weight-bold">Login</a>';
+        } else {
+          $name = $get_user_name['user_name'];
+          echo "<a href='logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
+        }
+      ?>
+    </div>
+
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
@@ -76,16 +91,6 @@ if(isset($_POST['remove'])) {
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li>
-                  <?php
-                   if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                   } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  
-                  ?>
-                </li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>

@@ -1,7 +1,13 @@
 <?php
 
 session_start();
+require_once("../classes/User.php");
 
+$user = new User;
+
+$user_id = $_SESSION['user_id'];
+
+$get_user_name = $user->getUsername($user_id);
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +46,17 @@ session_start();
       <div class="site-mobile-menu-body"></div>
     </div>
 
+    <div class="container mt-4">
+      <?php
+        if(!isset($_SESSION['user_id'] )){ 
+          echo '<a href="../pages/login.php" class="nav-link text-right font-weight-bold">Login</a>';
+        } else {
+          $name = $get_user_name['user_name'];
+          echo "<a href='../pages/logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
+        }
+      ?>
+    </div>
+
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
@@ -53,7 +70,7 @@ session_start();
         </div>
         <div class="row align-items-center">
           <div class="col-12 text-center mt-5">
-            <h2>Admin Page</h2>
+            <h2 class="text-black">Admin Page</h2>
           </div>
         </div>
       </div>
@@ -70,38 +87,29 @@ session_start();
                 <li><a href="categories.php" class="nav-link text-left">Categories</a></li>
                 <li><a href="items.php" class="nav-link text-left">Items</a></li>
                 <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
-                <li>
-                  <?php
-                   if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
-                   } else {
-                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  
-                  ?>
-                </li>
+                <li><a href="../pages/index.php" class="nav-link text-left">User Page</a></li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>
         </div>
       </div>
     </div>
-
+    <div class="site-section mt-2">
     <div class="container text-center">
-      <div class="row">
+      <div class="row w-75 mx-auto">
         <div class="col-4">
-          <a href ='addCategory.php' class='btn btn-primary mt-4 '>Add Category</a>
+          <a href ='addCategory.php' class='btn btn-primary mt-4 w-75'>Add Category</a>
         </div>
         <div class="col-4">
-          <a href ='addItem.php' class='btn btn-primary mt-4 '>Add Item</a>
+          <a href ='addItem.php' class='btn btn-primary mt-4 w-75'>Add Item</a>
         </div>
         <div class="col-4">
-          <a href ='addItemImage.php' class='btn btn-primary mt-4 '>Add Item Image</a>
+          <a href ='addItemImage.php' class='btn btn-primary mt-4 w-75'>Add Item Image</a>
         </div>
       </div>
-    </div>  
+    </div> 
+    </div> 
+
     
     <div class="footer">
       <div class="container">

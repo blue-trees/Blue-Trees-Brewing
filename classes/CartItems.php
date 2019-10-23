@@ -3,25 +3,23 @@ require_once("Config.php");
 
 class CartItem extends Config {
 
-    // public function getCart($user_id) {
+    public function getUsername($user_id) {
         
-    //     $sql = "SELECT * FROM `cart` WHERE user_id = $user_id";
+        $sql = "SELECT * FROM `users`
+        WHERE users.user_id = '$user_id'";
 
-    //     $result = $this->conn->query($sql);
+        $result = $this->conn->query($sql);
 
-    //     if($result->num_rows <= 0) {
-    //         return false;
-    //     } else {
-    //         $row = array();
+        if($result->num_rows <= 0) {
+            return false;
 
-    //         while($row = $result->fetch_assoc()) {
-    //             $rows[] = $row;
-    //         }
+        } elseif ($this->conn->error) {
+            echo $this->conn->error;
+        } else {
+            return $result->fetch_assoc();
+        }
 
-    //         return $rows;
-    //     }
-
-    // }
+    }
 
     public function getCartItem($user_id) {
             
@@ -29,7 +27,7 @@ class CartItem extends Config {
         INNER JOIN `carts` ON carts.cart_id = cart_items.cart_id
         INNER JOIN `items` ON items.item_id = cart_items.item_id
         INNER JOIN `item_images` ON item_images.item_id = cart_items.item_id
-        WHERE carts.user_id = $user_id";
+        WHERE carts.user_id = $user_id AND carts.cart_status='available'";
 
         $result = $this->conn->query($sql);
 
@@ -99,6 +97,7 @@ class CartItem extends Config {
 
             return $row['total'];
         }
+
 
     }
 

@@ -5,6 +5,10 @@ require_once("../classes/Category.php");
 
 $category = new Category;
 
+$user_id = $_SESSION['user_id'];
+
+$get_user_name = $category->getUsername($user_id);
+
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +47,17 @@ $category = new Category;
       <div class="site-mobile-menu-body"></div>
     </div>
 
+    <div class="container mt-4">
+      <?php
+        if(!isset($_SESSION['user_id'] )){ 
+          echo '<a href="../pages/login.php" class="nav-link text-right font-weight-bold">Login</a>';
+        } else {
+          $name = $get_user_name['user_name'];
+          echo "<a href='../pages/logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
+        }
+      ?>
+    </div>
+
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
@@ -71,16 +86,6 @@ $category = new Category;
                 <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
                 <li><a href=".php" class="nav-link text-left"></a></li>
                 <li><a href=".php" class="nav-link text-left"></a></li>
-                <li>
-                  <?php
-                   if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="../pages/login.php" class="nav-link text-left">Login</a>';
-                   } else {
-                      echo '<a href="../pages/logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  
-                  ?>
-                </li>
               </ul>                                                                                                                                                                                                                                                                                            
             </nav>
           </div>
