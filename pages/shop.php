@@ -2,12 +2,16 @@
 
 session_start();
 require_once("../classes/Cart.php");
+include("../classes/Item.php");
 
 $cart = new Cart;
+$item = new Item;
 
 $user_id = $_SESSION['user_id'];
 
 $get_user_name = $cart->getUsername($user_id);
+
+
 
 ?>
 
@@ -92,23 +96,79 @@ $get_user_name = $cart->getUsername($user_id);
     </div>
     </div>
 
-    <div class="site-section mt-5">
+    <div class="site-section mt-2">
       <div class="container">
-        <div class="row mb-5">
-          <div class="col-12 section-title text-center mb-5">
+        <div class="row mb-2">
+          <div class="col-12 section-title text-center mb-2">
             <h2 class="d-block">Our Products</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, perspiciatis!</p>
           </div>
         </div> 
 
+        <div class="mx-auto row">
+          <form action="" method="post" class="mb-3 col-6">
+            <div class="form-group">
+              <div class="row">
+                <div class="form-group col-8">
+                  <label for="" class="text-black">Price Sort</label>
+                  <select name="price_order" class="form-control">
+                    <option value="1">Price in Descending Order</option>
+                    <option value="2">Price in Ascending Order</option>
+                  </select>
+                </div>
+                <button type="submit" name="price_sort" class="btn btn-primary  d-inline-block col-2">SORT</button>
+              </div>
+            </div>
+          </form>
+          <form action="" method="post" class="mb-3 col-6">
+            <div class="form-group">
+              <div class="row">
+                <div class="form-group col-8">
+                  <label for="" class="text-black">Category Sort</label>
+                  <select name="category_order" class="form-control">
+                  <?php
+                    $result = $item->getCategory();
+
+                    foreach($result as $key => $row) {
+
+                      $category_id = $row['category_id'];
+                      $category_name = $row['category_name'];
+
+                      echo "<option value='$category_id'>$category_name</option>";
+                    }
+                  ?>  
+                  </select>
+                </div>
+                <button type="submit" name="category_sort" class="btn btn-primary  d-inline-block col-2">SORT</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
         <div class="row">                 
 
         <?php
-          include("../classes/Item.php");
+          if(isset($_POST['price_sort'])) {
+  
+            $price_sort = $_POST['price_order'];
+          
+            if($price_sort = 1) {
+          
+              $result = $item->getDesc();
+            } elseif($price_sort = 2) {
+          
+              $result = $item->getAsc();
+            }
 
-          $item = new Item;
+          } elseif(isset($_POST['category_sort'])){
+            
+            $category_id = $_POST['category_order'];
+            
+            $result = $item->getCategoryOrder($category_id);
+          } else {
+          
           $result = $item->getItemId();
-
+          }
           foreach($result as $key => $row) {
               $item_id = $row['item_id'];
               $item_name = $row['item_name'];
@@ -116,7 +176,6 @@ $get_user_name = $cart->getUsername($user_id);
               $item_price = number_format($row['item_price'], 2);
 
               echo "
-                
                   <div class='col-lg-4 mb-5 col-md-6'>
 
                     <div class='wine_v_1 text-center pb-4>
@@ -136,7 +195,7 @@ $get_user_name = $cart->getUsername($user_id);
                     </div>
 
                   </div>";
-        }
+          }
         ?>
           
         </div>

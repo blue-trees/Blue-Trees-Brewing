@@ -61,6 +61,27 @@ class Item extends Config {
 
     }
 
+    public function getCategory() {
+        
+        $sql = "SELECT * FROM `categories`";
+
+        $result = $this->conn->query($sql);
+
+        if($result->num_rows <= 0) {
+            return false;
+        } else {
+
+            $row = array();
+
+            while($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+
+            return $rows;
+        }
+
+    }
+
     public function getItemId() {
         
         $sql = "SELECT * FROM `items` 
@@ -86,8 +107,9 @@ class Item extends Config {
     // DESC SORT
     public function getDesc() {
         
-        $sql = "SELECT * FROM items 
-        ORDER BY item_price DESC"; 
+        $sql = "SELECT * FROM `items` 
+        INNER JOIN `item_images` ON item_images.item_id = items.item_id
+        ORDER BY items.item_price DESC"; 
 
         $result = $this->conn->query($sql);
 
@@ -109,7 +131,8 @@ class Item extends Config {
     public function getAsc() {
         
         $sql = "SELECT * FROM `items` 
-        ORDER BY item_price ASC"; 
+        INNER JOIN `item_images` ON item_images.item_id = items.item_id
+        ORDER BY items.item_price ASC"; 
 
         $result = $this->conn->query($sql);
 
@@ -128,7 +151,7 @@ class Item extends Config {
 
     }
     // CATEGORY SORT
-    public function getCategory($category_id) {
+    public function getCategoryOrder($category_id) {
         
         $sql = "SELECT * FROM `items` 
         INNER JOIN `item_images` ON item_images.item_id = items.item_id

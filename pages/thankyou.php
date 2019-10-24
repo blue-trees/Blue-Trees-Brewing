@@ -103,7 +103,7 @@ $get_user_name = $checkout->getUsername($user_id);
             <span class="icon-check_circle display-3 text-success"></span>
             <h2 class="display-3 text-black font-heading-serif">Thank you!</h2>
             <p class="lead mb-5">Your order was successfully completed.</p>
-            <p><a href="shop.php" class="btn btn-md height-auto px-4 py-3 btn-primary">Back to store</a></p>
+            <p><a href="index.php" class="btn btn-md height-auto px-4 py-3 btn-primary">Back to home</a></p>
           </div>
         </div>
       </div>

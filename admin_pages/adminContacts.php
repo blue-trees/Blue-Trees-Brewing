@@ -2,8 +2,10 @@
 
 session_start();
 require_once("../classes/Item.php");
+include("../classes/Contact.php");
 
 $item = new Item;
+$contact = new Contact;
 
 $user_id = $_SESSION['user_id'];
 
@@ -83,8 +85,8 @@ $get_user_name = $item->getUsername($user_id);
                 <li><a href="categories.php" class="nav-link text-left">Categories</a></li>
                 <li  class="active"><a href="items.php" class="nav-link text-left">Items</a></li>
                 <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
+                <li><a href="adminContacts.php" class="active nav-link text-left">Contacts</a></li>
+                <li><a href="../pages/index.php" class="nav-link text-left">User Page</a></li>
               </ul>                                                                                                                                                                                                                                                                                           
             </nav>
           </div>
@@ -104,27 +106,29 @@ $get_user_name = $item->getUsername($user_id);
                 ?>
                 <table class="table table-striped">
                     <thead class="text-center bg-secondary text-white">
-                      <th>Item ID</th>
-                      <th>category_id ID</th>
-                      <th>Item Name</th>
-                      <th>Item Price</th>
-                      <th>Item Quantity</th>
+                      <th>Contact ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email Address</th>
+                      <th>Phone Number</th>
+                      <th>Message</th>
                     </thead>
                     <tbody class="text-center">
                       <?php
-                        $result = $item->getItem();
+                        $result = $contact->getContact();
 
                         if($result === FALSE) {
-                          echo "<td colspan='5'>No Data Found.</td>";
+                          echo "<td colspan='6'>No Data Found.</td>";
                         } else {
                           foreach($result as $key => $row) {
 
                             echo "<tr>";
-                            echo "<td>" . $row['item_id'] . "</td>";
-                            echo "<td>" . $row['category_id'] . "</td>";
-                            echo "<td>" . $row['item_name'] . "</td>";
-                            echo "<td>" . number_format($row['item_price'],2) . "</td>";
-                            echo "<td>" . $row['item_quantity'] . "</td>";
+                            echo "<td>" . $row['contact_id'] . "</td>";
+                            echo "<td>" . $row['first_name'] . "</td>";
+                            echo "<td>" . $row['last_name'] . "</td>";
+                            echo "<td>" . $row['email_address'] . "</td>";
+                            echo "<td>" . $row['phone_number'] . "</td>";
+                            echo "<td>" . $row['message'] . "</td>";
                             echo "</tr>";
                           }
                         }
@@ -134,9 +138,7 @@ $get_user_name = $item->getUsername($user_id);
             </div>
         </div>
     </div>
-    <div class="container text-center">
-      <a href ='addItem.php' class='btn btn-primary mt-4 '>Add item</a>
-    </div>    
+  
     <div class="footer">
       <div class="container">
         <div class="row">

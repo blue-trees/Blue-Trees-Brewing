@@ -37,6 +37,26 @@ class Contact extends Config {
             echo $this->conn->error;
         }
     }
+    
+    public function getContact() {
+            
+        $sql = "SELECT * FROM `contacts`";
+
+        $result = $this->conn->query($sql);
+
+        if($result->num_rows <= 0) {
+            return false;
+        } else {
+            $row = array();
+
+            while($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+
+            return $rows;
+        }
+
+    }
 
 
 

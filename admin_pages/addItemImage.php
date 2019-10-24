@@ -92,8 +92,8 @@ if(isset($_POST["addItemImage"])) {
                 <li><a href="categories.php" class="nav-link text-left">Categories</a></li>
                 <li><a href="items.php" class="nav-link text-left">Items</a></li>
                 <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
+                <li><a href="adminContacts.php" class="nav-link text-left">Contacts</a></li>
+                <li><a href="../pages/index.php" class="nav-link text-left">User Page</a></li>
               </ul>                                                                                                                                                                                                                                                                                           
             </nav>
           </div>
