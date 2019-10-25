@@ -94,7 +94,8 @@ class Checkout extends Config {
 
     public function addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number) {
         
-        $sql = "INSERT INTO `shipping` (user_id,first_name,last_name,address_st,address_ap,state,zip,email,number) VALUE('$user_id','$fname','$lname','$street','$apartment','$state','$zip','$email','$number')";
+        $sql = "INSERT INTO `shipping` (user_id,first_name,last_name,address_st,address_ap,state,zip,email,number)
+        VALUE('$user_id','$fname','$lname','$street','$apartment','$state','$zip','$email','$number')";
         $result = $this->conn->query($sql);
 
         if($result === TRUE) {

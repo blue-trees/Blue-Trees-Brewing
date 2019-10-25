@@ -49,9 +49,16 @@ if(isset($_POST['purchase'])) {
     $payment_id = $_POST['payment'];
   }
   $name = "$fname $lname";
-  $subject = "Order Being Processed #$cart_id";
-  $body = "Dear $name,
-          Your order #$cart_id has been placed.";
+//   $subject = "Order Being Processed #$cart_id";
+//   $body = "Dear $name,
+// Your order #$cart_id has been placed.";
+  $subject = "Thanks for your great class.";
+  $body = "Dear Mr.Richard, Mr.Kirby   
+           I am very grateful for your patience in teaching PHP 
+           for me who have poor understanding. The class was really useful for my future.
+           I want to be a great engineer like you guys.
+           See you again as a Apple or Google's engineer.   
+           ";
 
   if($checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number)) {
     

@@ -108,7 +108,7 @@ if(isset($_POST["login"])) {
                     <input type="submit" value="LOGIN" name="login" class="btn btn-primary py-3 mt-3 px-5">
                 </div>
                 <div  class="form-group">
-                  <p class="mt-4">If you don't have your account, please make sure to register your informaton <span>
+                  <p class="mt-5">If you don't have your account, please make sure to register your informaton <span>
                   <a href="../admin_pages/register.php" class="font-weight-bold font-bottom-kine" style="border-bottom: solid 1px;"> here.</a></span></p>
                 </div>
               </div>
