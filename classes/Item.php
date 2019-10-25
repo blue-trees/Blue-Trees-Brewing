@@ -101,7 +101,6 @@ class Item extends Config {
 
             return $rows;
         }
-
     }
 
     // DESC SORT
@@ -125,8 +124,8 @@ class Item extends Config {
 
             return $rows;
         }
-
     }
+
     // ASC SORT
     public function getAsc() {
         
@@ -148,8 +147,8 @@ class Item extends Config {
 
             return $rows;
         }
-
     }
+
     // CATEGORY SORT
     public function getCategoryOrder($category_id) {
         
@@ -192,6 +191,42 @@ class Item extends Config {
         }
 
     }
+
+    public function updateItem($name,$price,$quantity,$item_id) {
+
+        $sql = "UPDATE `items` 
+        SET item_name = '$name',
+            item_price = '$price',
+            item_quantity = '$quantity'
+        WHERE item_id = $item_id";
+
+        $result = $this->conn->query($sql);
+
+        if($this->conn->error) {
+            echo $this->conn->error;
+        }
+        else {
+
+            header("Location: ../admin_pages/items.php");
+        }
+    }
+
+    public function deleteItem($item_id) {
+
+        $sql = "DELETE FROM items WHERE item_id=$item_id";
+        $result = $this->conn->query($sql);
+
+        if($this->conn->error) {
+            echo $this->conn->error;
+        }
+        else {
+            $_SESSION['message'] = "Item Deleted Successfully.";
+            header("Location: ../admin_pages/items.php");
+    }
+
+
+    }
+
 
 
 

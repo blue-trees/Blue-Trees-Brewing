@@ -105,26 +105,29 @@ $get_user_name = $item->getUsername($user_id);
                 <table class="table table-striped">
                     <thead class="text-center bg-secondary text-white">
                       <th>Item ID</th>
-                      <th>category_id ID</th>
                       <th>Item Name</th>
                       <th>Item Price</th>
                       <th>Item Quantity</th>
+                      <th>Action</th>
                     </thead>
                     <tbody class="text-center">
                       <?php
                         $result = $item->getItem();
 
                         if($result === FALSE) {
-                          echo "<td colspan='5'>No Data Found.</td>";
+                          echo "<td colspan='6'>No Data Found.</td>";
                         } else {
                           foreach($result as $key => $row) {
-
+                            $id = $row['item_id'];
                             echo "<tr>";
-                            echo "<td>" . $row['item_id'] . "</td>";
-                            echo "<td>" . $row['category_id'] . "</td>";
+                            echo "<td>" . $id . "</td>";
                             echo "<td>" . $row['item_name'] . "</td>";
                             echo "<td>" . number_format($row['item_price'],2) . "</td>";
                             echo "<td>" . $row['item_quantity'] . "</td>";
+                            echo "<td>
+                                  <a href ='editItem.php?item_id=$id' class='btn btn-info mr-3'>Edit</a>
+                                  <a href ='deleteItem.php?item_id=$id' class='btn btn-danger'>Delete</a>
+                                  </td>";
                             echo "</tr>";
                           }
                         }

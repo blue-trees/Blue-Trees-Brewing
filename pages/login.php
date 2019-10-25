@@ -8,7 +8,7 @@ if(isset($_POST["login"])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user->login($email,$password);
+    $login = $user->login($email,$password);
 }
 
 ?>
@@ -78,14 +78,6 @@ if(isset($_POST["login"])) {
                 <li><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
                 <li class="active">
-                  <?php
-                   if(!isset($_SESSION['user_id'] )){ 
-                      echo '<a href="login.php" class="nav-link text-left">Login</a>';
-                   } else {
-                      echo '<a href="logout.php" class="nav-link text-left">Logout</a>';
-                   }
-                  
-                  ?>
                 </li>
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>

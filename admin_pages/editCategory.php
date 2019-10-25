@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require_once("../classes/Category.php");
 
@@ -7,7 +6,18 @@ $category = new Category;
 
 $user_id = $_SESSION['user_id'];
 
+$category_id = $_GET['category_id'];
+
 $get_user_name = $category->getUsername($user_id);
+
+$get_category = $category->getSingleCategory($category_id);
+
+if(isset($_POST["updateCategory"])) {
+
+    $name = $_POST['name'];
+
+    $category->updateCategory($name,$category_id);
+}
 
 ?>
 
@@ -80,65 +90,37 @@ $get_user_name = $category->getUsername($user_id);
           <div class="mx-auto">
             <nav class="site-navigation position-relative text-left" role="navigation">
             <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
-                <li class="active"><a href="categories.php" class="nav-link text-left">Categories</a></li>
+                <li class="active"><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
+                <li><a href="categories.php" class="nav-link text-left">Categories</a></li>
                 <li><a href="items.php" class="nav-link text-left">Items</a></li>
                 <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
                 <li><a href="adminContacts.php" class="nav-link text-left">Contacts</a></li>
                 <li><a href="../pages/index.php" class="nav-link text-left">User Page</a></li>
-              </ul>                                                                                                                                                                                                                                                                                            
+              </ul>                                                                                                                                                                                                                                                                                           
             </nav>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="container">
-        <div class="card mt-5 w-75 mx-auto">
-            <div class="card-body">
-                <?php
-                    if(isset($_SESSION['message'])){
-                        echo "<div class='alert alert-success'>" .$_SESSION['message']. "</div>";
-                        unset($_SESSION['message']);
-                    }
-                ?>
-                <table class="table table-striped">
-                    <thead class="text-center bg-secondary text-white">
-                      <th>Category ID</th>
-                      <th>Category Name</th>
-                      <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                      <?php
-                        $result = $category->getCategory();
-
-                        if($result === FALSE) {
-                          echo "<td colspan='2'>No Data Found.</td>";
-                        } else {
-                          foreach($result as $key => $row) {
-                            $id = $row['category_id'];
-
-                            echo "<tr>";
-                            echo "<td>" . $id . "</td>";
-                            echo "<td>" . $row['category_name'] . "</td>";
-                            echo "<td>
-                                  <a href ='editCategory.php?category_id=$id' class='btn btn-info mr-3'>Edit</a>
-                                  <a href ='deleteCategory.php?category_id=$id' class='btn btn-danger'>Delete</a>
-                                  </td>";
-                            echo "</tr>";
-                          }
-                        }
-                      ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
-    <div class="container text-center">
-      <a href ='addCategory.php' class='btn btn-primary mt-4 '>Add Category</a>
-    </div>      
 
+    <div class="site-section mt-2">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12 section-title text-center mb-3">
+            <h2 class="d-block">Edit Category</h2>
+          </div>
+        </div>
+        <form action="" method="post" class="w-50 mx-auto">
+            <div class="form-group">
+                <label for="">Category Name</label>
+                <input type="text" name="name" class="form-control" value="<?php echo $get_category['category_name'];?> ">
+            </div>
+            <button type="submit" name="updateCategory" class="btn btn-primary mt-3">Update Category</button>
+        </form>
+    </div>
+    </div>
+    
     <div class="footer">
       <div class="container">
         <div class="row">
@@ -185,7 +167,6 @@ $get_user_name = $category->getUsername($user_id);
   <script src="../js/jquery.sticky.js"></script>
   <script src="../js/jquery.mb.YTPlayer.min.js"></script>
   <script src="../js/main.js"></script>
+</body>
 
-  </body>
 </html>
-

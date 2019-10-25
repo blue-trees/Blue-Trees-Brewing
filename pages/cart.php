@@ -3,16 +3,17 @@
 session_start();
 
 require_once("../classes/CartItems.php");
+require_once("../classes/User.php");
 
-$user_id = $_SESSION['user_id'];
-
+$user = new User;
 $cart_item = new CartItem;
 
-$get_cart_item = $cart_item->getCartItem($user_id);
-
-$get_user_name = $cart_item->getUsername($user_id);
-
-$get_subtotal = $cart_item->subtotal($user_id);
+if(isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  $get_user_name = $user->getUsername($user_id);
+  $get_cart_item = $cart_item->getCartItem($user_id);
+  $get_subtotal = $cart_item->subtotal($user_id);
+}
 
 if(isset($_POST['remove'])) {
 

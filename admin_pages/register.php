@@ -4,9 +4,10 @@ require_once("../classes/User.php");
 
 $user = new User;
 
-$user_id = $_SESSION['user_id'];
-
-$get_user_name = $user->getUsername($user_id);
+if(isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $get_user_name = $user->getUsername($user_id);
+}
 
 if(isset($_POST["save"])) {
 
@@ -93,13 +94,11 @@ if(isset($_POST["save"])) {
         
         <div class="mx-auto">
         <nav class="site-navigation position-relative text-left" role="navigation">
-        <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li class="active"><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
-                <li><a href="categories.php" class="nav-link text-left">Categories</a></li>
-                <li><a href="items.php" class="nav-link text-left">Items</a></li>
-                <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
-                <li><a href=".php" class="nav-link text-left"></a></li>
+            <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
+                <li><a href="../pages/index.php" class="nav-link text-left">Home</a></li>
+                <li><a href="../pages/about.php" class="nav-link text-left">About</a></li>
+                <li><a href="../pages/shop.php" class="nav-link text-left">Shop</a></li>
+                <li><a href="../pages/contact.php" class="nav-link text-left">Contact</a></li>
             </ul>                                                                                                                                                                                                                                                                                           
         </nav>
         </div>

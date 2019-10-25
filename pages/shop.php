@@ -7,12 +7,10 @@ include("../classes/Item.php");
 $cart = new Cart;
 $item = new Item;
 
-$user_id = $_SESSION['user_id'];
-
-$get_user_name = $cart->getUsername($user_id);
-
-
-
+if(isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  $get_user_name = $cart->getUsername($user_id);
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +20,8 @@ $get_user_name = $cart->getUsername($user_id);
   <title>Blue Tree Brewing</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Montserrat:400,700|Roboto&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Montserrat:400,700|Roboto&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../fonts/icomoon/style.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/jquery-ui.css">
@@ -71,29 +70,29 @@ $get_user_name = $cart->getUsername($user_id);
             </a>
           </div>
           <a href="#" class="mx-auto d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
-                class="icon-menu h3"></span></a>
+              class="icon-menu h3"></span></a>
         </div>
       </div>
-      
+
       <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
-      <div class="container">
-        <div class="d-flex align-items-center">
-          
-          <div class="mx-auto">
-            <nav class="site-navigation position-relative text-left" role="navigation">
-              <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li><a href="index.php" class="nav-link text-left">Home</a></li>
-                <li><a href="about.php" class="nav-link text-left">About</a></li>
-                <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
-                <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li><a href="cart.php" class="nav-link text-left">Cart</a></li>
-              </ul>                                                                                                                                                                                                                                                                                         
-            </nav>
+        <div class="container">
+          <div class="d-flex align-items-center">
+
+            <div class="mx-auto">
+              <nav class="site-navigation position-relative text-left" role="navigation">
+                <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
+                  <li><a href="index.php" class="nav-link text-left">Home</a></li>
+                  <li><a href="about.php" class="nav-link text-left">About</a></li>
+                  <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
+                  <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
+                  <!-- <li><a href="cart.php" class="nav-link text-left">Cart</a></li> -->
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
 
     <div class="site-section mt-2">
@@ -103,59 +102,59 @@ $get_user_name = $cart->getUsername($user_id);
             <h2 class="d-block">Our Products</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, perspiciatis!</p>
           </div>
-        </div> 
+        </div>
 
-        <div class="mx-auto row">
-          <form action="" method="post" class="mb-3 col-6">
-            <div class="form-group">
-              <div class="row">
-                <div class="form-group col-8">
-                  <label for="" class="text-black">Price Sort</label>
-                  <select name="price_order" class="form-control">
+        <div class="mx-auto row mb-4">
+
+          <div class="col-5 ml-3 mx-auto">
+            <h6 for="" class="text-black ml-4">Price Sort</h6>
+            <div class="row">
+              <form action="" method="post" class="mb-3 col-12 form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                  <select name="price_order" class="form-control" style="width:280px">
                     <option value="1">Price in Descending Order</option>
                     <option value="2">Price in Ascending Order</option>
                   </select>
                 </div>
-                <button type="submit" name="price_sort" class="btn btn-primary  d-inline-block col-2">SORT</button>
-              </div>
+                <button type="submit" name="price_sort" class="form-group btn btn-primary mb-2">SORT</button>
+              </form>
             </div>
-          </form>
-          <form action="" method="post" class="mb-3 col-6">
-            <div class="form-group">
-              <div class="row">
-                <div class="form-group col-8">
-                  <label for="" class="text-black">Category Sort</label>
-                  <select name="category_order" class="form-control">
-                  <?php
+          </div>
+
+          <div class="col-5 ml-3 mx-auto">
+            <h6 for="" class="text-black ml-4">Category Sort</h6>
+            <div class="row">
+              <form action="" method="post" class="mb-3 col-12 form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                  <select name="category_order" class="form-control" style="width:280px">
+                    <?php
                     $result = $item->getCategory();
-
                     foreach($result as $key => $row) {
-
                       $category_id = $row['category_id'];
                       $category_name = $row['category_name'];
-
                       echo "<option value='$category_id'>$category_name</option>";
                     }
-                  ?>  
+                  ?>
                   </select>
                 </div>
-                <button type="submit" name="category_sort" class="btn btn-primary  d-inline-block col-2">SORT</button>
-              </div>
+                <button type="submit" name="category_sort" class="form-group btn btn-primary">SORT</button>
+              </form>
             </div>
-          </form>
+          </div>
+
         </div>
 
-        <div class="row">                 
+        <div class="row">
 
-        <?php
+          <?php
           if(isset($_POST['price_sort'])) {
   
             $price_sort = $_POST['price_order'];
           
-            if($price_sort = 1) {
+            if($price_sort == 1) {
           
               $result = $item->getDesc();
-            } elseif($price_sort = 2) {
+            } elseif($price_sort == 2) {
           
               $result = $item->getAsc();
             }
@@ -166,8 +165,8 @@ $get_user_name = $cart->getUsername($user_id);
             
             $result = $item->getCategoryOrder($category_id);
           } else {
-          
-          $result = $item->getItemId();
+
+            $result = $item->getItemId();
           }
           foreach($result as $key => $row) {
               $item_id = $row['item_id'];
@@ -197,13 +196,13 @@ $get_user_name = $cart->getUsername($user_id);
                   </div>";
           }
         ?>
-          
+
         </div>
       </div>
     </div>
 
     <div class="hero-2" style="background-image: url('../images/hero_2.jpg');">
-     <div class="container">
+      <div class="container">
         <div class="row justify-content-center text-center align-items-center">
           <div class="col-md-8">
             <span class="sub-title">Welcome</span>
@@ -216,38 +215,46 @@ $get_user_name = $cart->getUsername($user_id);
     <div class="site-section bg-light">
       <div class="container">
         <div class="owl-carousel owl-slide-3 owl-slide">
-        
+
           <blockquote class="testimony">
             <img src="../images/person_1.jpg" alt="Image">
-            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo
+              neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in
+              cumque?&rdquo;</p>
             <p class="small text-primary">&mdash; Collin Miller</p>
           </blockquote>
           <blockquote class="testimony">
             <img src="../images/person_2.jpg" alt="Image">
-            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo
+              neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in
+              cumque?&rdquo;</p>
             <p class="small text-primary">&mdash; Harley Perkins</p>
           </blockquote>
           <blockquote class="testimony">
             <img src="../images/person_3.jpg" alt="Image">
-            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo
+              neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in
+              cumque?&rdquo;</p>
             <p class="small text-primary">&mdash; Levi Morris</p>
           </blockquote>
           <blockquote class="testimony">
             <img src="../images/person_1.jpg" alt="Image">
-            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo
+              neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in
+              cumque?&rdquo;</p>
             <p class="small text-primary">&mdash; Allie Smith</p>
           </blockquote>
-        
+
         </div>
       </div>
     </div>
-  
 
-    
-    
+
+
+
     <div class="footer">
       <div class="container">
-        
+
         <div class="row">
           <div class="col-12 text-center">
             <div class="social-icons">
@@ -261,11 +268,14 @@ $get_user_name = $cart->getUsername($user_id);
         <div class="row">
           <div class="col-12">
             <div class="copyright">
-                <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
+              <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>
+                  document.write(new Date().getFullYear());
+                </script> All rights reserved | This template is made with <i class="icon-heart text-danger"
+                  aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
 
 
 
@@ -274,14 +284,17 @@ $get_user_name = $cart->getUsername($user_id);
         </div>
       </div>
     </div>
-    
+
 
   </div>
   <!-- .site-wrap -->
 
 
   <!-- loader -->
-  <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#ff5e15"/></svg></div>
+  <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#ff5e15" /></svg></div>
 
   <script src="../js/jquery-3.3.1.min.js"></script>
   <script src="../js/jquery-migrate-3.0.1.min.js"></script>

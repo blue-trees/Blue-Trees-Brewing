@@ -44,7 +44,7 @@ class User extends Config {
 
 
         if($result->num_rows <= 0) {
-            return "Invalid Username or Password";
+            echo "Invalid Username or Password";
 
         }else {
 

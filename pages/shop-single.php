@@ -2,30 +2,33 @@
 
 session_start();
 require_once("../classes/Item.php");
-// ※確認：どっから来てる？GETの機能
-$item_id = $_GET['item_id'];
-
-$user_id = $_SESSION['user_id'];
+include("../classes/Cart.php");
 
 $item = new Item;
+$cart = new Cart;
+
+if(isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  $get_user_name = $item->getUsername($user_id);
+}
+
+$item_id = $_GET['item_id'];
 
 $get_item = $item->getSingleItem($item_id);
 
-$get_user_name = $item->getUsername($user_id);
-
 $item_image = $get_item['item_image'];
-
-$user_id = $_SESSION['user_id'];
-
-include("../classes/Cart.php");
-$cart = new Cart;
 
 if(isset($_POST['addToCart'])){
   $quantity = $_POST['quantity'];
   $price = $get_item['item_price'];
-  $add = $cart->addToCart($item_id, $quantity, $user_id, $price);
-  if($add) {
-    header("Location: cart.php");
+  
+  if(isset($user_id)) {
+    $add = $cart->addToCart($item_id, $quantity, $user_id, $price);
+    if($add) {
+      header("Location: cart.php");
+    }
+  } else {
+    header("Location: login.php");
   }
 }
 
@@ -106,7 +109,7 @@ if(isset($_POST['addToCart'])){
                 <li><a href="about.php" class="nav-link text-left">About</a></li>
                 <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
                 <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
-                <li><a href="cart.php" class="nav-link text-left">Cart</a></li>
+                <!-- <li><a href="cart.php" class="nav-link text-left">Cart</a></li> -->
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>
@@ -123,7 +126,7 @@ if(isset($_POST['addToCart'])){
       </div>
     </div>
 
-    <div class="site-section mt-5">
+    <div class="site-section mt-2">
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
@@ -135,7 +138,7 @@ if(isset($_POST['addToCart'])){
             <h2 class="text-primary">Details</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eos inventore aspernatur voluptatibus ratione odit molestias molestiae, illum et impedit veniam modi sunt quas nam mollitia earum perferendis, dolorem. Magni.</p>
 
-            <div class="mb-5">
+            <div class="mb-2">
               <form class="input-group mb-3" method="POST" style="max-width: 200px;">
                 <div class="input-group-prepend">
                   <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>

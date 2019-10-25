@@ -6,11 +6,12 @@ require_once("../classes/Contact.php");
 
 $contact = new Contact;
 
-$user_id = $_SESSION['user_id'];
+if(isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  $get_user_name = $contact->getUsername($user_id);
+}
 
-$get_user_name = $contact->getUsername($user_id);
-
-if(isset($_POST['contactUS'])) {
+if(isset($_POST['contactUs'])) {
 
   $fname = $_POST['fname'];
   $lname = $_POST['lname'];
@@ -159,7 +160,7 @@ if(isset($_POST['contactUS'])) {
 
                   <div class="row">
                       <div class="col-12">
-                          <input type="submit" name="contactUS" value="Send Message" class="btn btn-primary py-3 px-5">
+                          <input type="submit" name="contactUs" value="Send Message" class="btn btn-primary py-3 px-5">
                       </div>
                   </div>
               

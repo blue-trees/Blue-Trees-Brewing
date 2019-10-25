@@ -53,26 +53,16 @@ if(isset($_POST['purchase'])) {
   $body = "Dear $name,
           Your order #$cart_id has been placed.";
 
-  if($checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number))
-  {
+  if($checkout->addShipping($user_id,$fname,$lname,$street,$apartment,$state,$zip,$email,$number)) {
+    
     if($checkout->addCheckout($cart_id,$payment_id)) {
       if(sendMail($email, $body, $subject, $name)) {
+        $checkout->closeCart($user_id);
         header("Location: thankyou.php");
       }
     }
   }
 }
-
-// $to = $get_user['user_email'];
-// $subject = "Blue Tree Brewing";
-// $message = "Thank you for your purchace.";
-// $headers = "From: sylvaticas@gmail.com";
-
-// if(isset($_POST['purchase'])) {
-
-//   mail($to, $subject, $message, $headers);
-
-// }
 
 ?>
 

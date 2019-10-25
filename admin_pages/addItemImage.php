@@ -111,16 +111,7 @@ if(isset($_POST["addItemImage"])) {
           </div>
         </div>
         <form action="" method="post" enctype="multipart/form-data" class="w-50 mx-auto">
-          <!-- <input id="lefile" type="file" style="display:none">
-          <div class="input-group">
-            <input type="text" id="photoCover" class="form-control" placeholder="select file...">
-            <span class="input-group-btn"><button type="button" class="btn btn-primary" onclick="$('input[id=lefile]').click();">Browse</button></span>
-          </div>
-          <script>
-            $('input[id=lefile]').change(function() {
-              $('#photoCover').val($(this).val());
-            });
-          </script> -->
+
           <div class="form-group">
                 <label for="">Item Photo</label>
                 <input type="file" name="itemImage" class="form-control-file">

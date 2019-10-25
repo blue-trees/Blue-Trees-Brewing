@@ -4,11 +4,15 @@ session_start();
 
 require_once("../classes/User.php");
 
-$user_id = $_SESSION['user_id'];
-
 $user = new User;
 
-$get_user_name = $user->getUsername($user_id);
+if(isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  $get_user_name = $user->getUsername($user_id);
+}
+
+
+
 ?>
 
 <!DOCTYPE html>

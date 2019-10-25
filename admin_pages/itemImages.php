@@ -106,8 +106,9 @@ $get_user_name = $itemImage->getUsername($user_id);
                 <table class="table table-striped">
                     <thead class="text-center bg-secondary text-white">
                       <th>Item Image ID</th>
-                      <th>Item name</th>
+                      <th>Item Name</th>
                       <th>Item Image</th>
+                      <th>Action</th>
                     </thead>
                     <tbody class="text-center">
                       <?php
@@ -119,11 +120,16 @@ $get_user_name = $itemImage->getUsername($user_id);
                           foreach($result as $key => $row) {
 
                             $image = $row['item_image'];
+                            $id = $row['item_image_id'];
 
                             echo "<tr>";
-                            echo "<td>" . $row['item_image_id'] . "</td>";
+                            echo "<td>" . $id . "</td>";
                             echo "<td>" . $row['item_name'] . "</td>";
                             echo "<td><image src='../images/$image' width='30'></td>";
+                            echo "<td>
+                                  <a href ='editItemImage.php?item_image_id=$id' class='btn btn-info mr-3'>Edit</a>
+                                  <a href ='deleteItemImage.php?item_image_id=$id' class='btn btn-danger'>Delete</a>
+                                  </td>";
                             echo "</tr>";
                           }
                         }

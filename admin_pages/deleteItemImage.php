@@ -1,14 +1,19 @@
 <?php
-
 session_start();
-require_once("../classes/Category.php");
 
-$category = new Category;
+require_once("../classes/ItemImage.php");
+
+$item_image_id = $_GET['item_image_id'];
 
 $user_id = $_SESSION['user_id'];
 
-$get_user_name = $category->getUsername($user_id);
+$itemImage = new ItemImage;
 
+if(isset($_POST['delete'])) {
+
+  $itemImage->deleteItemImage($item_image_id);
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +23,7 @@ $get_user_name = $category->getUsername($user_id);
   <title>Blue Tree Brewing</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Montserrat:400,700|Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Montserrat:400,700|Roboto&display=swap" rel="stylesheet"> 
   <link rel="stylesheet" href="../fonts/icomoon/style.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/jquery-ui.css">
@@ -47,17 +52,6 @@ $get_user_name = $category->getUsername($user_id);
       <div class="site-mobile-menu-body"></div>
     </div>
 
-    <div class="container mt-4">
-      <?php
-        if(!isset($_SESSION['user_id'] )){ 
-          echo '<a href="../pages/login.php" class="nav-link text-right font-weight-bold">Login</a>';
-        } else {
-          $name = $get_user_name['user_name'];
-          echo "<a href='../pages/logout.php' class='nav-link text-right font-weight-bold'>Hello! $name (LOGOUT) </a>";
-        }
-      ?>
-    </div>
-
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
@@ -70,77 +64,47 @@ $get_user_name = $category->getUsername($user_id);
                 class="icon-menu h3"></span></a>
         </div>
       </div>
-    </div>
       
-      
+
       <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
       <div class="container">
         <div class="d-flex align-items-center">
+
           <div class="mx-auto">
             <nav class="site-navigation position-relative text-left" role="navigation">
-            <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li><a href="admin.php" class="nav-link text-left">Dashbord</a></li>
-                <li class="active"><a href="categories.php" class="nav-link text-left">Categories</a></li>
-                <li><a href="items.php" class="nav-link text-left">Items</a></li>
-                <li><a href="itemImages.php" class="nav-link text-left">Item Images</a></li>
-                <li><a href="adminContacts.php" class="nav-link text-left">Contacts</a></li>
-                <li><a href="../pages/index.php" class="nav-link text-left">User Page</a></li>
-              </ul>                                                                                                                                                                                                                                                                                            
+              <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
+                <li><a href="index.php" class="nav-link text-left">Home</a></li>
+                <li><a href="about.php" class="nav-link text-left">About</a></li>
+                <li class="active"><a href="shop.php" class="nav-link text-left">Shop</a></li>
+                <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
+              </ul>                                                                                                                                                                                                                                                                                         
             </nav>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="container">
-        <div class="card mt-5 w-75 mx-auto">
-            <div class="card-body">
-                <?php
-                    if(isset($_SESSION['message'])){
-                        echo "<div class='alert alert-success'>" .$_SESSION['message']. "</div>";
-                        unset($_SESSION['message']);
-                    }
-                ?>
-                <table class="table table-striped">
-                    <thead class="text-center bg-secondary text-white">
-                      <th>Category ID</th>
-                      <th>Category Name</th>
-                      <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                      <?php
-                        $result = $category->getCategory();
-
-                        if($result === FALSE) {
-                          echo "<td colspan='2'>No Data Found.</td>";
-                        } else {
-                          foreach($result as $key => $row) {
-                            $id = $row['category_id'];
-
-                            echo "<tr>";
-                            echo "<td>" . $id . "</td>";
-                            echo "<td>" . $row['category_name'] . "</td>";
-                            echo "<td>
-                                  <a href ='editCategory.php?category_id=$id' class='btn btn-info mr-3'>Edit</a>
-                                  <a href ='deleteCategory.php?category_id=$id' class='btn btn-danger'>Delete</a>
-                                  </td>";
-                            echo "</tr>";
-                          }
-                        }
-                      ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
-    <div class="container text-center">
-      <a href ='addCategory.php' class='btn btn-primary mt-4 '>Add Category</a>
-    </div>      
+
+    <div class="site-section bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <form action="" method="post" class="text-center">
+                    <h3>Are you sure to delete this item image?</h3>
+                    <button type="submit" name="delete" class="btn btn-primary mr-5 mt-3 px-4">Yes</button>
+                    <a href="itemImages.php" class="btn btn-primary mt-3">Cancel</a>
+                </form>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
 
     <div class="footer">
       <div class="container">
+        
         <div class="row">
           <div class="col-12 text-center">
             <div class="social-icons">
@@ -164,10 +128,9 @@ $get_user_name = $category->getUsername($user_id);
         </div>
       </div>
     </div>
-  </div>
-  <!-- .site-wrap -->
+    
 
-  <!-- loader -->
+  </div>
   <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#ff5e15"/></svg></div>
 
   <script src="../js/jquery-3.3.1.min.js"></script>
@@ -186,6 +149,6 @@ $get_user_name = $category->getUsername($user_id);
   <script src="../js/jquery.mb.YTPlayer.min.js"></script>
   <script src="../js/main.js"></script>
 
-  </body>
-</html>
+</body>
 
+</html>

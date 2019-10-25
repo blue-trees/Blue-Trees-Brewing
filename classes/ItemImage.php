@@ -61,4 +61,42 @@ class ItemImage extends Config {
     }
 
 
+    public function updateItemImage($directory,$filename,$tmp_name,$item_image_id) {
+
+        $sql = "UPDATE `item_images` 
+        SET   item_image = '$filename'
+        WHERE item_image_id = $item_image_id";
+
+        $result = $this->conn->query($sql);
+
+        if($result === TRUE) {
+            if(move_uploaded_file($tmp_name, "$directory" . basename($filename))) {
+
+                $_SESSION['message'] = "Item Image updated successfully";
+                header("Location: ../admin_pages/itemImages.php");
+            }
+
+        } else {
+            echo $this->conn->error;
+        }
+    }
+
+    public function deleteItemImage($item_image_id) {
+
+        $sql = "DELETE FROM item_images WHERE item_image_id=$item_image_id";
+        $result = $this->conn->query($sql);
+
+        if($this->conn->error) {
+            echo $this->conn->error;
+        }
+        else {
+            $_SESSION['message'] = "ItemImage Deleted Successfully.";
+            header("Location: ../admin_pages/itemImages.php");
+        }
+
+
+    }
+
+
+
 }

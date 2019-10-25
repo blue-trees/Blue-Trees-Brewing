@@ -74,7 +74,7 @@ class Checkout extends Config {
         INNER JOIN `carts` ON carts.cart_id = cart_items.cart_id
         INNER JOIN `items` ON items.item_id = cart_items.item_id
         INNER JOIN `item_images` ON item_images.item_id = cart_items.item_id
-        WHERE carts.user_id = $user_id";
+        WHERE carts.user_id = $user_id AND cart_status='available'";
 
         $result = $this->conn->query($sql);
 
@@ -134,5 +134,13 @@ class Checkout extends Config {
 
             return $rows;
         }
+    }
+
+    public function closeCart($user_id) {
+
+        $sql = "UPDATE `carts` SET cart_status ='close' 
+                WHERE user_id = $user_id";
+
+        $result = $this->conn->query($sql);
     }
 }
